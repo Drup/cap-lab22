@@ -1,9 +1,9 @@
 # Planning of the compilation course (CAP, Compilation and Program Analysis)
-_Academic first semester 2022-2021_
+_Academic first semester 2022-2023_
 
 # Week 1: 
 
-- :book: First Course session: Tuesday 5/9/2022, 10h15-12h15. Amphi B (Gabriel Radanne)
+- :book: First Course session: Tuesday 7/09/2022, 10h15-12h15. Amphi B (Gabriel Radanne)
   
   * Introduction: [transparents](course/capmif_cours01_intro_et_archi.pdf).
   * ISA [ref pdf RISCV](course/riscv_isa.pdf).
@@ -11,7 +11,7 @@ _Academic first semester 2022-2021_
   * Lexing, Parsing, [slides](course/capmif_cours02_lexing_parsing.pdf).
   * [Demo Parsing](course/ANTLRExamples.tar.xz).
 
-- :book: Second Course session: Friday 7/9/2022, 10:15. Amphi B (Gabriel Radanne)
+- :book: Second Course session: Friday 9/09/2022, 10:15. Amphi B (Gabriel Radanne)
 
   * Interpreters [slides in english](course/capmif_cours03_interpreters.pdf).
   * [Demo files](course/ANTLRExamples.tar.xz)
