@@ -1,4 +1,4 @@
-# cap-labs 2021: Public files for ENSL M1 students (CAP course)
+# cap-labs 2022: Public files for ENSL M1 students (CAP course)
 
 ![ensllogo](logos/logo_ensl.png)
 
@@ -39,7 +39,7 @@ Gabriel Radanne, Inria, LIP [email](mailto:gabriel.radanne@ens-lyon.fr)
 
 * MCC (final grade computation) : 
 ```
-let ccgrade = average(Lab3, Lab5, Lab6, partial)
+let ccgrade = average(Lab3, Lab4, Lab5, partial)
 in (finalnote + ccgrade)/2
 ```
 * The partial exam is this academic year replaced by a written housework ("DM").

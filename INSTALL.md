@@ -4,7 +4,7 @@ A pre-compiled archive is available here:
 
   https://matthieu-moy.fr/spip/?Pre-compiled-RISC-V-GNU-toolchain-and-spike
 
-This is known to work on Ubuntu 20.04 and 20.10. Use at your own risk anywhere
+This is known to work on Ubuntu 20.04, 20.10 and 22.04. Use at your own risk anywhere
 else. It contains the RiscV tools, ANTLR, and Pyright (a type-checker for Python
 used in the labs).
 
