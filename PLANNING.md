@@ -29,3 +29,7 @@ _Academic first semester 2022-2023_
   * Introduction to RISCV [TP01](TP01/tp1.pdf).
   * Code in [TP01/](TP01/).
   * ISA [ref pdf RISCV](course/riscv_isa.pdf).
+
+- :book: Third Course session: Friday 16/09/2022, 10:15. Amphi B (Ludovic Henrio)
+
+  * Semantics [slides in english](course/cap_cours03b_semantics.pdf).
