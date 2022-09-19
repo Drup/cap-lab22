@@ -1,0 +1,4 @@
+a = 4 +b ; 
+// EXPECTED
+// b is undefined
+// EXITCODE 1
