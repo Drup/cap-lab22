@@ -33,3 +33,10 @@ _Academic first semester 2022-2023_
 - :book: Third Course session: Friday 16/09/2022, 10:15. Amphi B (Ludovic Henrio)
 
   * Semantics [slides in english](course/cap_cours03b_semantics.pdf).
+
+# Week 3:
+
+- :hammer: Lab 2: Wednesday 21/09/2021, 10h15-12h15. Salles ?? (Nicolas Chappe) & ?? (Rémi Di Guardia)
+
+  * Lexing & Parsing with ANTLR4 [TP02](TP02/tp2.pdf).
+  * Code in [TP02/](TP02/).
