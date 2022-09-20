@@ -24,7 +24,7 @@ _Academic first semester 2022-2023_
 
 # Week 2:
 
-- :hammer: Lab 1: Wednesday 14/09/2021, 10h15-12h15. Salles B1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+- :hammer: Lab 1: Wednesday 14/09/2021, 10h15-12h15. Rooms B1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
 
   * Introduction to RISCV [TP01](TP01/tp1.pdf).
   * Code in [TP01/](TP01/).
@@ -36,7 +36,7 @@ _Academic first semester 2022-2023_
 
 # Week 3:
 
-- :hammer: Lab 2: Wednesday 21/09/2021, 10h15-12h15. Salles ?? (Nicolas Chappe) & ?? (Rémi Di Guardia)
+- :hammer: Lab 2: Wednesday 21/09/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
 
   * Lexing & Parsing with ANTLR4 [TP02](TP02/tp2.pdf).
   * Code in [TP02/](TP02/).
