@@ -43,4 +43,4 @@ _Academic first semester 2022-2023_
 
 - :book: 4th Course session: Friday 23/09/2022, 10:15. Amphi B (Ludovic Henrio)
 
-  * Typing [slides in english](course/CAP_cours04_typing).
+  * Typing [slides in english](course/CAP_cours04_typing.pdf).
