@@ -40,3 +40,7 @@ _Academic first semester 2022-2023_
 
   * Lexing & Parsing with ANTLR4 [TP02](TP02/tp2.pdf).
   * Code in [TP02/](TP02/).
+
+- :book: 4th Course session: Friday 23/09/2022, 10:15. Amphi B (Ludovic Henrio)
+
+  * Typing [slides in english](course/CAP_cours04_typing).
