@@ -1,0 +1,9 @@
+[report]
+exclude_lines =
+    pragma: no cover
+    raise MiniCInternalError
+    raise MiniCUnsupportedError
+    if debug:
+    if debug_graphs:
+    if self._debug:
+    if self._debug_graphs:

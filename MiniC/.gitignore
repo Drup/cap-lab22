@@ -1,0 +1,16 @@
+/MiniCLexer.py
+/MiniCParser.py
+/MiniCVisitor.py
+/TP*/tests/**/*.s
+/TP*/**/*.riscv
+/TP*/**/*-naive.s
+/TP*/**/*-all_in_mem.s
+/TP*/**/*-smart.s
+/TP*/**/*.trace
+/TP*/**/*.dot
+/TP*/**/*.dot.pdf
+/MiniC-stripped.g4
+.coverage
+htmlcov/
+doc/api
+doc/_build

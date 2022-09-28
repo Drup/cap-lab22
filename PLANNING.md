@@ -44,3 +44,11 @@ _Academic first semester 2022-2023_
 - :book: 4th Course session: Friday 23/09/2022, 10:15. Amphi B (Ludovic Henrio)
 
   * Typing [slides in english](course/CAP_cours04_typing.pdf).
+
+# Week 4:
+
+- :hammer: Lab 3: Wednesday 28/09/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+
+  * Interpreter & Typer [TP03](TP03/tp3.pdf).
+  * Code in [TP03/](TP03/) and [MiniC/TP03/](MiniC/TP03/).
+  * Graded lab due on https://etudes.ens-lyon.fr/course/view.php?id=5249 before 2022-10-04 23:59
