@@ -52,3 +52,7 @@ _Academic first semester 2022-2023_
   * Interpreter & Typer [TP03](TP03/tp3.pdf).
   * Code in [TP03/](TP03/) and [MiniC/TP03/](MiniC/TP03/).
   * Graded lab due on https://etudes.ens-lyon.fr/course/view.php?id=5249 before 2022-10-04 23:59
+
+- :book: 5th Course session: Friday 30/09/2022, 10:15. Amphi B (Gabriel Radanne)
+
+  * 3A Code Generation [slides in english](course/capmif_cours05_3ad_codegen.pdf).
