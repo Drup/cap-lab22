@@ -56,3 +56,12 @@ _Academic first semester 2022-2023_
 - :book: 5th Course session: Friday 30/09/2022, 10:15. Amphi B (Gabriel Radanne)
 
   * 3A Code Generation [slides in english](course/capmif_cours05_3ad_codegen.pdf).
+  * CFG (first section) [slides in english](course/capmif_cours06_irs.pdf).
+
+# Week 5:
+
+- :hammer: Lab 3: Wednesday 5/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+
+- :book: 5th Course session: Friday 7/10/2022, 10:15. Amphi B (Gabriel Radanne)
+
+  * CFG [slides in english](course/capmif_cours06_irs.pdf).
