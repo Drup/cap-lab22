@@ -1,0 +1,7 @@
+MiniC
+=====
+
+.. toctree::
+   :maxdepth: 4
+
+   Lib

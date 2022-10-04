@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lib.LinearCode &mdash; MiniC  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MiniC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Errors.html">Base library - Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Statement.html">Base library - Statement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.RiscV.html">Base library - RISC-V instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Operands.html">Base library - Operands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.LinearCode.html">Linear intermediate representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Allocator.html">Temporary allocation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MiniC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>Lib.LinearCode</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Lib.LinearCode</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CAP, CodeGeneration, LinearCode API</span>
+<span class="sd">Classes for a RiscV linear code.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">Lib.Operands</span> <span class="kn">import</span> <span class="p">(</span><span class="n">A0</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">DataLocation</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">Lib.Statement</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Instru3A</span><span class="p">,</span> <span class="n">AbsoluteJump</span><span class="p">,</span> <span class="n">ConditionalJump</span><span class="p">,</span> <span class="n">Comment</span><span class="p">,</span> <span class="n">Label</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">Lib.RiscV</span> <span class="kn">import</span> <span class="p">(</span><span class="n">mv</span><span class="p">,</span> <span class="n">call</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">Lib.FunctionData</span> <span class="kn">import</span> <span class="p">(</span><span class="n">FunctionData</span><span class="p">,</span> <span class="n">_iter_statements</span><span class="p">,</span> <span class="n">_print_code</span><span class="p">)</span>
+
+
+<span class="n">CodeStatement</span> <span class="o">=</span> <span class="n">Comment</span> <span class="o">|</span> <span class="n">Label</span> <span class="o">|</span> <span class="n">Instru3A</span> <span class="o">|</span> <span class="n">AbsoluteJump</span> <span class="o">|</span> <span class="n">ConditionalJump</span>
+
+
+<div class="viewcode-block" id="LinearCode"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode">[docs]</a><span class="k">class</span> <span class="nc">LinearCode</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Representation of a RiscV program as a list of instructions.</span>
+
+<span class="sd">    :py:meth:`add_instruction` is repeatedly called in the codegen visitor</span>
+<span class="sd">    to build a complete list of RiscV instructions for the source program.</span>
+
+<span class="sd">    The :py:attr:`fdata` member variable contains some meta-information</span>
+<span class="sd">    on the program, for instance to allocate a new temporary.</span>
+<span class="sd">    See :py:class:`Lib.FunctionData.FunctionData`.</span>
+
+<span class="sd">    For debugging purposes, :py:meth:`print_code` allows to print</span>
+<span class="sd">    the RiscV program to a file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The :py:attr:`fdata` member variable contains some meta-information</span>
+<span class="sd">    on the program, for instance to allocate a new temporary.</span>
+<span class="sd">    See :py:class:`Lib.FunctionData.FunctionData`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fdata</span><span class="p">:</span> <span class="n">FunctionData</span>
+
+    <span class="n">_listIns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CodeStatement</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fdata</span> <span class="o">=</span> <span class="n">FunctionData</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LinearCode.add_instruction"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.add_instruction">[docs]</a>    <span class="k">def</span> <span class="nf">add_instruction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">CodeStatement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Utility function to add an instruction in the program.</span>
+
+<span class="sd">        See also :py:mod:`Lib.RiscV` to generate relevant instructions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearCode.iter_statements"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.iter_statements">[docs]</a>    <span class="k">def</span> <span class="nf">iter_statements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Iterate over instructions.</span>
+<span class="sd">        For each real instruction (not label or comment), call f,</span>
+<span class="sd">        which must return either None or a list of instruction. If it</span>
+<span class="sd">        returns None, nothing happens. If it returns a list, then the</span>
+<span class="sd">        instruction is replaced by this list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span> <span class="o">=</span> <span class="n">_iter_statements</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearCode.get_instructions"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.get_instructions">[docs]</a>    <span class="k">def</span> <span class="nf">get_instructions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CodeStatement</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return the list of instructions of the program.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span></div>
+
+    <span class="c1"># each instruction has its own &quot;add in list&quot; version</span>
+<div class="viewcode-block" id="LinearCode.add_label"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.add_label">[docs]</a>    <span class="k">def</span> <span class="nf">add_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">Label</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a label in the program.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_instruction</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearCode.add_comment"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.add_comment">[docs]</a>    <span class="k">def</span> <span class="nf">add_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a comment in the program.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_instruction</span><span class="p">(</span><span class="n">Comment</span><span class="p">(</span><span class="n">s</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="LinearCode.add_instruction_PRINTLN_INT"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.add_instruction_PRINTLN_INT">[docs]</a>    <span class="k">def</span> <span class="nf">add_instruction_PRINTLN_INT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reg</span><span class="p">:</span> <span class="n">DataLocation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Print integer value, with newline. (see Expand)&quot;&quot;&quot;</span>
+        <span class="c1"># a print instruction generates the temp it prints.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_instruction</span><span class="p">(</span><span class="n">mv</span><span class="p">(</span><span class="n">A0</span><span class="p">,</span> <span class="n">reg</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_instruction</span><span class="p">(</span><span class="n">call</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="s1">&#39;println_int&#39;</span><span class="p">)))</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span><span class="p">))</span>
+
+<div class="viewcode-block" id="LinearCode.print_code"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.print_code">[docs]</a>    <span class="k">def</span> <span class="nf">print_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Outputs the RiscV program as text to a file at the given path.&quot;&quot;&quot;</span>
+        <span class="n">_print_code</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fdata</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">init_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">fin_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fin_div0</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearCode.print_dot"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.print_dot">[docs]</a>    <span class="k">def</span> <span class="nf">print_dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">DF</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;Outputs the RiscV program as graph to a file at the given path.&quot;&quot;&quot;</span>
+        <span class="c1"># import graphviz here so that students who don&#39;t have it can still work on lab4</span>
+        <span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">()</span>
+        <span class="c1"># nodes</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">l&quot;</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="s2">&quot;Code&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;rectangle&#39;</span><span class="p">)</span>
+        <span class="c1"># no edges</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, compil-lyon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

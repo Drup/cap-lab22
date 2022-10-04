@@ -1,0 +1,7 @@
+Lib.Allocator module
+====================
+
+.. automodule:: Lib.Allocator
+   :members:
+   :undoc-members:
+   :show-inheritance:

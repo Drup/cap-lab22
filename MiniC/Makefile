@@ -9,12 +9,9 @@ ifdef TEST_FILES
 export TEST_FILES
 endif
 
-ifdef SSA
-MINICC_OPTS+=--ssa
-endif
-
-ifdef SSA_OPTIM
-MINICC_OPTS+=--ssa-optim
+# code generation mode
+ifdef MODE
+MINICC_OPTS+=--mode $(MODE)
 endif
 
 ifdef TYPECHECK_ONLY
@@ -45,8 +42,8 @@ main-deps: MiniCLexer.py MiniCParser.py TP03/MiniCInterpretVisitor.py TP03/MiniC
 .PHONY: test test-interpret test-codegen clean clean-tests tar antlr
 
 
-test: test-interpret
 
+test: test-interpret test-codegen
 
 test-pyright: antlr
 	pyright .
@@ -57,10 +54,16 @@ test-interpret: test-pyright test_interpreter.py main-deps
 
 # Test for naive allocator (also runs test_expect to check // EXPECTED directives):
 test-naive: test-pyright antlr
+ifndef MODE
+	export MINICC_OPTS="${MINICC_OPTS} --mode codegen-linear"
+endif
 	python3 -m pytest $(PYTEST_BASE_OPTS) $(PYTEST_OPTS) ./test_codegen.py -k 'naive or expect'
 
 # Test for all but the smart allocator, i.e. everything that lab4 should pass:
-test-notsmart: test-pyright antlr
+test-lab4: test-pyright antlr
+ifndef MODE
+	export MINICC_OPTS="${MINICC_OPTS} --mode codegen-linear"
+endif
 	python3 -m pytest $(PYTEST_BASE_OPTS) $(PYTEST_OPTS) ./test_codegen.py -k 'not smart'
 
 # Test just the smart allocator (quicker than tests)
@@ -83,7 +86,7 @@ define CLEAN
 import glob
 import os
 for f in glob.glob("**/tests/**/*.c", recursive=True):
-	for s in ("{}-{}.s".format(f[:-2], test) for test in ("naive", "smart", "gcc", "all_in_mem")):
+	for s in ("{}-{}.s".format(f[:-2], test) for test in ("naive", "smart", "gcc", "all-in-mem")):
 		try:
 			os.remove(s)
 			print("Removed {}".format(s))

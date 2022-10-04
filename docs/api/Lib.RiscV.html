@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lib.RiscV module &mdash; MiniC  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lib.Operands module" href="Lib.Operands.html" />
+    <link rel="prev" title="Lib.Statement module" href="Lib.Statement.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> MiniC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Lib.Errors.html">Base library - Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Statement.html">Base library - Statement</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Base library - RISC-V instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Operands.html">Base library - Operands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.LinearCode.html">Linear intermediate representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Allocator.html">Temporary allocation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MiniC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Lib.RiscV module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/Lib.RiscV.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Lib.RiscV">
+<span id="lib-riscv-module"></span><h1>Lib.RiscV module<a class="headerlink" href="#module-Lib.RiscV" title="Permalink to this heading"></a></h1>
+<p>MIF08, CAP, CodeGeneration, RiscV API
+Functions to define instructions.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.add">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr2orimm7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.add" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.call">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Function" title="Lib.Operands.Function"><span class="pre">Function</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.call" title="Permalink to this definition"></a></dt>
+<dd><p>Function call.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.conditional_jump">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">conditional_jump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">op1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Condition" title="Lib.Operands.Condition"><span class="pre">Condition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">op2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/RiscV.html#conditional_jump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.conditional_jump" title="Permalink to this definition"></a></dt>
+<dd><p>Add a conditional jump to the code.
+This is a wrapper around bge, bgt, beq, … c is a Condition, like
+Condition(‘bgt’), Condition(MiniCParser.EQ), …</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.div">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">div</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr2orimm7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#div"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.div" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.jump">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">jump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.AbsoluteJump" title="Lib.Statement.AbsoluteJump"><span class="pre">AbsoluteJump</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#jump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.jump" title="Permalink to this definition"></a></dt>
+<dd><p>Unconditional jump to label.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.land">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">land</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr2orimm7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#land"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.land" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.ld">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">ld</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#ld"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.ld" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.li">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">li</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">imm7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Immediate" title="Lib.Operands.Immediate"><span class="pre">Immediate</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#li"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.li" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.lor">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">lor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr2orimm7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#lor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.lor" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.mul">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">mul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr2orimm7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#mul"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.mul" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.mv">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">mv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#mv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.mv" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.rem">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">rem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr2orimm7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#rem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.rem" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.sd">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">sd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#sd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.sd" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.sub">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr2orimm7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#sub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.sub" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.RiscV.xor">
+<span class="sig-prename descclassname"><span class="pre">Lib.RiscV.</span></span><span class="sig-name descname"><span class="pre">xor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sr2orimm7</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Instru3A</span></a></span></span><a class="reference internal" href="../_modules/Lib/RiscV.html#xor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.RiscV.xor" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Lib.Statement.html" class="btn btn-neutral float-left" title="Lib.Statement module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lib.Operands.html" class="btn btn-neutral float-right" title="Lib.Operands module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, compil-lyon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

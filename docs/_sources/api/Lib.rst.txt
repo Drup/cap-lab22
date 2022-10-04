@@ -1,0 +1,24 @@
+Lib package
+===========
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   Lib.Allocator
+   Lib.Errors
+   Lib.FunctionData
+   Lib.LinearCode
+   Lib.Operands
+   Lib.RiscV
+   Lib.Statement
+
+Module contents
+---------------
+
+.. automodule:: Lib
+   :members:
+   :undoc-members:
+   :show-inheritance:

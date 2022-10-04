@@ -1,8 +1,8 @@
 #! /usr/bin/env python3
 """
-Code generation lab, main file. Code Generation with Smart IRs.
+Evaluation and code generation labs, main file.
 Usage:
-    python3 MiniCC.py <filename>
+    python3 MiniCC.py --mode <mode> <filename>
     python3 MiniCC.py --help
 """
 import traceback
@@ -58,7 +58,7 @@ def valid_modes():
         return modes
 
     try:
-        import TP05c.OptimSSA  # type: ignore[import]
+        import TPoptim.OptimSSA  # type: ignore[import]
         modes.append('codegen-optim')
     except ImportError:
         pass
@@ -146,9 +146,9 @@ def main(inputname, reg_alloc, mode,
                 from TP04.BuildCFG import build_cfg  # type: ignore[import]
                 from Lib.CFG import CFG  # type: ignore[import]
                 code = build_cfg(function)
-                assert(isinstance(code, CFG))
+                assert (isinstance(code, CFG))
             if debug_graphs:
-                s = "{}.{}.dot".format(basename, code.fdata._name)
+                s = "{}.{}.dot".format(basename, code.fdata.get_name())
                 print("CFG:", s)
                 code.print_dot(s, view=True)
             if mode.value >= Mode.SSA.value:
@@ -157,14 +157,14 @@ def main(inputname, reg_alloc, mode,
 
                 DF = enter_ssa(cast(CFG, code), basename, debug, ssa_graphs)
                 if ssa_graphs:
-                    s = "{}.{}.ssa.dot".format(basename, code.fdata._name)
+                    s = "{}.{}.ssa.dot".format(basename, code.fdata.get_name())
                     print("SSA:", s)
                     code.print_dot(s, DF, True)
                 if mode == Mode.OPTIM:
-                    from TP05c.OptimSSA import OptimSSA  # type: ignore[import]
+                    from TPoptim.OptimSSA import OptimSSA  # type: ignore[import]
                     OptimSSA(cast(CFG, code), debug=debug)
                     if ssa_graphs:
-                        s = "{}.{}.optimssa.dot".format(basename, code.fdata._name)
+                        s = "{}.{}.optimssa.dot".format(basename, code.fdata.get_name())
                         print("SSA after optim:", s)
                         code.print_dot(s, view=True)
             allocator = None
@@ -178,7 +178,7 @@ def main(inputname, reg_alloc, mode,
                 comment = "all-in-memory allocation"
             elif reg_alloc == "smart":
                 liveness = None
-                if mode == Mode.SSA:
+                if mode.value >= Mode.SSA.value:
                     from TP05.LivenessSSA import LivenessSSA  # type: ignore[import]
                     try:
                         from Lib.CFG import CFG  # type: ignore[import]
@@ -205,15 +205,15 @@ liveness file not found for {}.".format(form))
                 raise ValueError("Invalid allocation strategy:" + reg_alloc)
             if allocator:
                 allocator.prepare()
-            if mode == Mode.SSA:
+            if mode.value >= Mode.SSA.value:
                 from Lib.CFG import CFG  # type: ignore[import]
                 from TP05.SSA import exit_ssa  # type: ignore[import]
                 exit_ssa(cast(CFG, code))
                 comment += " with SSA"
             if allocator:
                 allocator.rewriteCode(code)
-            if mode == Mode.SSA and ssa_graphs:
-                s = "{}.{}.exitssa.dot".format(basename, code.fdata._name)
+            if mode.value >= Mode.SSA.value and ssa_graphs:
+                s = "{}.{}.exitssa.dot".format(basename, code.fdata.get_name())
                 print("CFG after SSA:", s)
                 code.print_dot(s, view=True)
             code.print_code(output, comment=comment)

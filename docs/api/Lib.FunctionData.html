@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lib.FunctionData module &mdash; MiniC  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lib.LinearCode module" href="Lib.LinearCode.html" />
+    <link rel="prev" title="Lib.Operands module" href="Lib.Operands.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> MiniC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Lib.Errors.html">Base library - Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Statement.html">Base library - Statement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.RiscV.html">Base library - RISC-V instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Operands.html">Base library - Operands</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.LinearCode.html">Linear intermediate representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Allocator.html">Temporary allocation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MiniC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Lib.FunctionData module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/Lib.FunctionData.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Lib.FunctionData">
+<span id="lib-functiondata-module"></span><h1>Lib.FunctionData module<a class="headerlink" href="#module-Lib.FunctionData" title="Permalink to this heading"></a></h1>
+<p>This file defines the base class <a class="reference internal" href="#Lib.FunctionData.FunctionData" title="Lib.FunctionData.FunctionData"><code class="xref py py-class docutils literal notranslate"><span class="pre">FunctionData</span></code></a>,
+containing metadata on a RiscV function, as well as utility
+functions common to the different intermediate representations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.FunctionData.</span></span><span class="sig-name descname"><span class="pre">FunctionData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stores some metadata on a RiscV function:
+name of the function, label names, temporary variables
+(using <a class="reference internal" href="Lib.Operands.html#Lib.Operands.TemporaryPool" title="Lib.Operands.TemporaryPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lib.Operands.TemporaryPool</span></code></a>),
+and div_by_zero label.</p>
+<p>This class is usually used indirectly through the
+different intermediate representations we work with,
+such as <a class="reference internal" href="Lib.LinearCode.html#Lib.LinearCode.LinearCode.fdata" title="Lib.LinearCode.LinearCode.fdata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Lib.LinearCode.LinearCode.fdata</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.fresh_label">
+<span class="sig-name descname"><span class="pre">fresh_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.fresh_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.fresh_label" title="Permalink to this definition"></a></dt>
+<dd><p>Return a new label, with a unique name based on the given string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.fresh_offset">
+<span class="sig-name descname"><span class="pre">fresh_offset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Offset" title="Lib.Operands.Offset"><span class="pre">Offset</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.fresh_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.fresh_offset" title="Permalink to this definition"></a></dt>
+<dd><p>Return a new offset in the memory stack.
+Offsets are decreasing relative to FP.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.fresh_tmp">
+<span class="sig-name descname"><span class="pre">fresh_tmp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.fresh_tmp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.fresh_tmp" title="Permalink to this definition"></a></dt>
+<dd><p>Return a new fresh Temporary,
+which is added to the pool.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.get_label_div_by_zero">
+<span class="sig-name descname"><span class="pre">get_label_div_by_zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.get_label_div_by_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.get_label_div_by_zero" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.get_name" title="Permalink to this definition"></a></dt>
+<dd><p>Return the name of the function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.get_offset">
+<span class="sig-name descname"><span class="pre">get_offset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.get_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.get_offset" title="Permalink to this definition"></a></dt>
+<dd><p>Return the current offset in the memory stack.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Lib.Operands.html" class="btn btn-neutral float-left" title="Lib.Operands module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lib.LinearCode.html" class="btn btn-neutral float-right" title="Lib.LinearCode module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, compil-lyon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lib.LinearCode module &mdash; MiniC  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lib.Allocator module" href="Lib.Allocator.html" />
+    <link rel="prev" title="Lib.FunctionData module" href="Lib.FunctionData.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> MiniC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Lib.Errors.html">Base library - Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Statement.html">Base library - Statement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.RiscV.html">Base library - RISC-V instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Operands.html">Base library - Operands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Linear intermediate representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Allocator.html">Temporary allocation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MiniC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Lib.LinearCode module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/Lib.LinearCode.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Lib.LinearCode">
+<span id="lib-linearcode-module"></span><h1>Lib.LinearCode module<a class="headerlink" href="#module-Lib.LinearCode" title="Permalink to this heading"></a></h1>
+<p>CAP, CodeGeneration, LinearCode API
+Classes for a RiscV linear code.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.LinearCode.</span></span><span class="sig-name descname"><span class="pre">LinearCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Representation of a RiscV program as a list of instructions.</p>
+<p><a class="reference internal" href="#Lib.LinearCode.LinearCode.add_instruction" title="Lib.LinearCode.LinearCode.add_instruction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_instruction()</span></code></a> is repeatedly called in the codegen visitor
+to build a complete list of RiscV instructions for the source program.</p>
+<p>The <a class="reference internal" href="#Lib.LinearCode.LinearCode.fdata" title="Lib.LinearCode.LinearCode.fdata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fdata</span></code></a> member variable contains some meta-information
+on the program, for instance to allocate a new temporary.
+See <a class="reference internal" href="Lib.FunctionData.html#Lib.FunctionData.FunctionData" title="Lib.FunctionData.FunctionData"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lib.FunctionData.FunctionData</span></code></a>.</p>
+<p>For debugging purposes, <a class="reference internal" href="#Lib.LinearCode.LinearCode.print_code" title="Lib.LinearCode.LinearCode.print_code"><code class="xref py py-meth docutils literal notranslate"><span class="pre">print_code()</span></code></a> allows to print
+the RiscV program to a file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.add_comment">
+<span class="sig-name descname"><span class="pre">add_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode.add_comment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode.add_comment" title="Permalink to this definition"></a></dt>
+<dd><p>Add a comment in the program.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.add_instruction">
+<span class="sig-name descname"><span class="pre">add_instruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Comment" title="Lib.Statement.Comment"><span class="pre">Lib.Statement.Comment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Lib.Statement.Label</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Lib.Statement.Instru3A</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.AbsoluteJump" title="Lib.Statement.AbsoluteJump"><span class="pre">Lib.Statement.AbsoluteJump</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.ConditionalJump" title="Lib.Statement.ConditionalJump"><span class="pre">Lib.Statement.ConditionalJump</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode.add_instruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode.add_instruction" title="Permalink to this definition"></a></dt>
+<dd><p>Utility function to add an instruction in the program.</p>
+<p>See also <a class="reference internal" href="Lib.RiscV.html#module-Lib.RiscV" title="Lib.RiscV"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Lib.RiscV</span></code></a> to generate relevant instructions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.add_instruction_PRINTLN_INT">
+<span class="sig-name descname"><span class="pre">add_instruction_PRINTLN_INT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.DataLocation" title="Lib.Operands.DataLocation"><span class="pre">DataLocation</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode.add_instruction_PRINTLN_INT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode.add_instruction_PRINTLN_INT" title="Permalink to this definition"></a></dt>
+<dd><p>Print integer value, with newline. (see Expand)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.add_label">
+<span class="sig-name descname"><span class="pre">add_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode.add_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode.add_label" title="Permalink to this definition"></a></dt>
+<dd><p>Add a label in the program.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.fdata">
+<span class="sig-name descname"><span class="pre">fdata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="Lib.FunctionData.html#Lib.FunctionData.FunctionData" title="Lib.FunctionData.FunctionData"><span class="pre">FunctionData</span></a></em><a class="headerlink" href="#Lib.LinearCode.LinearCode.fdata" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.get_instructions">
+<span class="sig-name descname"><span class="pre">get_instructions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Comment" title="Lib.Statement.Comment"><span class="pre">Lib.Statement.Comment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Lib.Statement.Label</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><span class="pre">Lib.Statement.Instru3A</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.AbsoluteJump" title="Lib.Statement.AbsoluteJump"><span class="pre">Lib.Statement.AbsoluteJump</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.ConditionalJump" title="Lib.Statement.ConditionalJump"><span class="pre">Lib.Statement.ConditionalJump</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode.get_instructions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode.get_instructions" title="Permalink to this definition"></a></dt>
+<dd><p>Return the list of instructions of the program.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.iter_statements">
+<span class="sig-name descname"><span class="pre">iter_statements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode.iter_statements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode.iter_statements" title="Permalink to this definition"></a></dt>
+<dd><p>Iterate over instructions.
+For each real instruction (not label or comment), call f,
+which must return either None or a list of instruction. If it
+returns None, nothing happens. If it returns a list, then the
+instruction is replaced by this list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.print_code">
+<span class="sig-name descname"><span class="pre">print_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode.print_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode.print_code" title="Permalink to this definition"></a></dt>
+<dd><p>Outputs the RiscV program as text to a file at the given path.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.print_dot">
+<span class="sig-name descname"><span class="pre">print_dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode.print_dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode.print_dot" title="Permalink to this definition"></a></dt>
+<dd><p>Outputs the RiscV program as graph to a file at the given path.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Lib.FunctionData.html" class="btn btn-neutral float-left" title="Lib.FunctionData module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lib.Allocator.html" class="btn btn-neutral float-right" title="Lib.Allocator module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, compil-lyon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

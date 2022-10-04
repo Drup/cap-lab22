@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lib.Allocator module &mdash; MiniC  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Lib.LinearCode module" href="Lib.LinearCode.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> MiniC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Lib.Errors.html">Base library - Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Statement.html">Base library - Statement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.RiscV.html">Base library - RISC-V instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Operands.html">Base library - Operands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.LinearCode.html">Linear intermediate representation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Temporary allocation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MiniC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Lib.Allocator module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/Lib.Allocator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Lib.Allocator">
+<span id="lib-allocator-module"></span><h1>Lib.Allocator module<a class="headerlink" href="#module-Lib.Allocator" title="Permalink to this heading"></a></h1>
+<p>This file defines the base class <a class="reference internal" href="#Lib.Allocator.Allocator" title="Lib.Allocator.Allocator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Allocator</span></code></a>
+and the naïve implementation <a class="reference internal" href="#Lib.Allocator.NaiveAllocator" title="Lib.Allocator.NaiveAllocator"><code class="xref py py-class docutils literal notranslate"><span class="pre">NaiveAllocator</span></code></a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.Allocator.Allocator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Allocator.</span></span><span class="sig-name descname"><span class="pre">Allocator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.FunctionData.html#Lib.FunctionData.FunctionData" title="Lib.FunctionData.FunctionData"><span class="pre">FunctionData</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Allocator.html#Allocator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.Allocator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>General base class for Naive, AllInMem and Smart Allocators.
+Replace all temporaries in the code with actual data locations.</p>
+<p>Allocation is done in two steps:</p>
+<ul class="simple">
+<li><p>First, <a class="reference internal" href="#Lib.Allocator.Allocator.prepare" title="Lib.Allocator.Allocator.prepare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code></a> is responsible for calling
+<a class="reference internal" href="Lib.Operands.html#Lib.Operands.TemporaryPool.set_temp_allocation" title="Lib.Operands.TemporaryPool.set_temp_allocation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Lib.Operands.TemporaryPool.set_temp_allocation()</span></code></a>
+with a mapping from temporaries to where they should actually be stored
+(in registers or in memory).</p></li>
+<li><p>Then, <a class="reference internal" href="#Lib.Allocator.Allocator.replace" title="Lib.Allocator.Allocator.replace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">replace()</span></code></a> is called for each instruction in order to
+replace the temporary operands with the previously assigned locations
+(and possibly add some instructions before or after).
+Concretely, it returns a list of instructions that should replace the original
+instruction. The actual iteration over all the instructions is handled transparently
+by <a class="reference internal" href="Lib.LinearCode.html#Lib.LinearCode.LinearCode.iter_statements" title="Lib.LinearCode.LinearCode.iter_statements"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Lib.LinearCode.LinearCode.iter_statements()</span></code></a>.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Allocator.Allocator.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/Allocator.html#Allocator.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.Allocator.prepare" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Allocator.Allocator.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><span class="pre">Instruction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><span class="pre">Instruction</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Allocator.html#Allocator.replace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.Allocator.replace" title="Permalink to this definition"></a></dt>
+<dd><p>Transform an instruction with temporaries into a list of instructions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Allocator.Allocator.rewriteCode">
+<span class="sig-name descname"><span class="pre">rewriteCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listcode</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/Allocator.html#Allocator.rewriteCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.Allocator.rewriteCode" title="Permalink to this definition"></a></dt>
+<dd><p>Modify the code to replace temporaries with
+registers or memory locations.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.Allocator.NaiveAllocator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Allocator.</span></span><span class="sig-name descname"><span class="pre">NaiveAllocator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.FunctionData.html#Lib.FunctionData.FunctionData" title="Lib.FunctionData.FunctionData"><span class="pre">FunctionData</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Allocator.html#NaiveAllocator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.NaiveAllocator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Lib.Allocator.Allocator" title="Lib.Allocator.Allocator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Allocator</span></code></a></p>
+<p>Naive Allocator: try to assign a register to each temporary,
+fails if there are more temporaries than registers.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Allocator.NaiveAllocator.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/Allocator.html#NaiveAllocator.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.NaiveAllocator.prepare" title="Permalink to this definition"></a></dt>
+<dd><p>Allocate all temporaries to registers.
+Fail if there are too many temporaries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Allocator.NaiveAllocator.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><span class="pre">Instruction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><span class="pre">Instruction</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Allocator.html#NaiveAllocator.replace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.NaiveAllocator.replace" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Temporary operands with the corresponding allocated Register.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Lib.LinearCode.html" class="btn btn-neutral float-left" title="Lib.LinearCode module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, compil-lyon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

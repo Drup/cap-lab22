@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lib.Allocator &mdash; MiniC  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MiniC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Errors.html">Base library - Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Statement.html">Base library - Statement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.RiscV.html">Base library - RISC-V instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Operands.html">Base library - Operands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.LinearCode.html">Linear intermediate representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Allocator.html">Temporary allocation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MiniC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>Lib.Allocator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Lib.Allocator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file defines the base class :py:class:`Allocator`</span>
+<span class="sd">and the naïve implementation :py:class:`NaiveAllocator`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">Lib.Operands</span> <span class="kn">import</span> <span class="n">Temporary</span><span class="p">,</span> <span class="n">Operand</span><span class="p">,</span> <span class="n">DataLocation</span><span class="p">,</span> <span class="n">GP_REGS</span>
+<span class="kn">from</span> <span class="nn">Lib.Statement</span> <span class="kn">import</span> <span class="n">Instruction</span>
+<span class="kn">from</span> <span class="nn">Lib.Errors</span> <span class="kn">import</span> <span class="n">AllocationError</span>
+<span class="kn">from</span> <span class="nn">Lib.FunctionData</span> <span class="kn">import</span> <span class="n">FunctionData</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+
+<div class="viewcode-block" id="Allocator"><a class="viewcode-back" href="../../api/Lib.Allocator.html#Lib.Allocator.Allocator">[docs]</a><span class="k">class</span> <span class="nc">Allocator</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;General base class for Naive, AllInMem and Smart Allocators.</span>
+<span class="sd">    Replace all temporaries in the code with actual data locations.</span>
+
+<span class="sd">    Allocation is done in two steps:</span>
+
+<span class="sd">    - First, :py:meth:`prepare` is responsible for calling</span>
+<span class="sd">      :py:meth:`Lib.Operands.TemporaryPool.set_temp_allocation`</span>
+<span class="sd">      with a mapping from temporaries to where they should actually be stored</span>
+<span class="sd">      (in registers or in memory).</span>
+<span class="sd">    - Then, :py:meth:`replace` is called for each instruction in order to</span>
+<span class="sd">      replace the temporary operands with the previously assigned locations</span>
+<span class="sd">      (and possibly add some instructions before or after).</span>
+<span class="sd">      Concretely, it returns a list of instructions that should replace the original</span>
+<span class="sd">      instruction. The actual iteration over all the instructions is handled transparently</span>
+<span class="sd">      by :py:meth:`Lib.LinearCode.LinearCode.iter_statements`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_fdata</span><span class="p">:</span> <span class="n">FunctionData</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fdata</span><span class="p">:</span> <span class="n">FunctionData</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fdata</span> <span class="o">=</span> <span class="n">fdata</span>
+
+<div class="viewcode-block" id="Allocator.prepare"><a class="viewcode-back" href="../../api/Lib.Allocator.html#Lib.Allocator.Allocator.prepare">[docs]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Allocator.replace"><a class="viewcode-back" href="../../api/Lib.Allocator.html#Lib.Allocator.Allocator.replace">[docs]</a>    <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instr</span><span class="p">:</span> <span class="n">Instruction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Transform an instruction with temporaries into a list of instructions.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">instr</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Allocator.rewriteCode"><a class="viewcode-back" href="../../api/Lib.Allocator.html#Lib.Allocator.Allocator.rewriteCode">[docs]</a>    <span class="k">def</span> <span class="nf">rewriteCode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listcode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Modify the code to replace temporaries with</span>
+<span class="sd">        registers or memory locations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">listcode</span><span class="o">.</span><span class="n">iter_statements</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">replace</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="NaiveAllocator"><a class="viewcode-back" href="../../api/Lib.Allocator.html#Lib.Allocator.NaiveAllocator">[docs]</a><span class="k">class</span> <span class="nc">NaiveAllocator</span><span class="p">(</span><span class="n">Allocator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Naive Allocator: try to assign a register to each temporary,</span>
+<span class="sd">    fails if there are more temporaries than registers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NaiveAllocator.replace"><a class="viewcode-back" href="../../api/Lib.Allocator.html#Lib.Allocator.NaiveAllocator.replace">[docs]</a>    <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_instr</span><span class="p">:</span> <span class="n">Instruction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Replace Temporary operands with the corresponding allocated Register.&quot;&quot;&quot;</span>
+        <span class="n">subst</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Operand</span><span class="p">,</span> <span class="n">Operand</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">old_instr</span><span class="o">.</span><span class="n">args</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">Temporary</span><span class="p">):</span>
+                <span class="n">subst</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">get_alloced_loc</span><span class="p">()</span>
+        <span class="n">new_instr</span> <span class="o">=</span> <span class="n">old_instr</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">subst</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">new_instr</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="NaiveAllocator.prepare"><a class="viewcode-back" href="../../api/Lib.Allocator.html#Lib.Allocator.NaiveAllocator.prepare">[docs]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Allocate all temporaries to registers.</span>
+<span class="sd">        Fail if there are too many temporaries.&quot;&quot;&quot;</span>
+        <span class="n">regs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">GP_REGS</span><span class="p">)</span>  <span class="c1"># Get a writable copy</span>
+        <span class="n">temp_allocation</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Temporary</span><span class="p">,</span> <span class="n">DataLocation</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">tmp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fdata</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">get_all_temps</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">reg</span> <span class="o">=</span> <span class="n">regs</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">AllocationError</span><span class="p">(</span>
+                    <span class="s2">&quot;Too many temporaries (</span><span class="si">{}</span><span class="s2">) for the naive allocation, sorry.&quot;</span>
+                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fdata</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">get_all_temps</span><span class="p">())))</span>
+            <span class="n">temp_allocation</span><span class="p">[</span><span class="n">tmp</span><span class="p">]</span> <span class="o">=</span> <span class="n">reg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fdata</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">set_temp_allocation</span><span class="p">(</span><span class="n">temp_allocation</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, compil-lyon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lib.Operands &mdash; MiniC  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MiniC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Errors.html">Base library - Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Statement.html">Base library - Statement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.RiscV.html">Base library - RISC-V instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Operands.html">Base library - Operands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.LinearCode.html">Linear intermediate representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Allocator.html">Temporary allocation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MiniC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>Lib.Operands</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Lib.Operands</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file defines the base class :py:class:`Operand`</span>
+<span class="sd">and its subclasses for different operands: :py:class:`Condition`,</span>
+<span class="sd">:py:class:`DataLocation` and :py:class:`Function`.</span>
+
+<span class="sd">The class :py:class:`DataLocation` itself has subclasses:</span>
+<span class="sd">:py:class:`Register`, :py:class:`Offset` for address in memory,</span>
+<span class="sd">:py:class:`Immediate` for constants and :py:class:`Temporary`</span>
+<span class="sd">for location not yet allocated.</span>
+
+<span class="sd">This file also define shortcuts for registers in RISCV.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">MiniCParser</span> <span class="kn">import</span> <span class="n">MiniCParser</span>
+<span class="kn">from</span> <span class="nn">Lib.Errors</span> <span class="kn">import</span> <span class="n">MiniCInternalError</span>
+
+
+<div class="viewcode-block" id="Operand"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Operand">[docs]</a><span class="k">class</span> <span class="nc">Operand</span><span class="p">():</span>
+
+    <span class="k">pass</span></div>
+
+
+<span class="c1"># signed version for riscv</span>
+<span class="n">all_ops</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blt&#39;</span><span class="p">,</span> <span class="s1">&#39;bgt&#39;</span><span class="p">,</span> <span class="s1">&#39;beq&#39;</span><span class="p">,</span> <span class="s1">&#39;bne&#39;</span><span class="p">,</span> <span class="s1">&#39;ble&#39;</span><span class="p">,</span> <span class="s1">&#39;bge&#39;</span><span class="p">,</span> <span class="s1">&#39;beqz&#39;</span><span class="p">,</span> <span class="s1">&#39;bnez&#39;</span><span class="p">]</span>
+<span class="n">opdict</span> <span class="o">=</span> <span class="p">{</span><span class="n">MiniCParser</span><span class="o">.</span><span class="n">LT</span><span class="p">:</span>   <span class="s1">&#39;blt&#39;</span><span class="p">,</span> <span class="n">MiniCParser</span><span class="o">.</span><span class="n">GT</span><span class="p">:</span>   <span class="s1">&#39;bgt&#39;</span><span class="p">,</span>
+          <span class="n">MiniCParser</span><span class="o">.</span><span class="n">LTEQ</span><span class="p">:</span> <span class="s1">&#39;ble&#39;</span><span class="p">,</span> <span class="n">MiniCParser</span><span class="o">.</span><span class="n">GTEQ</span><span class="p">:</span> <span class="s1">&#39;bge&#39;</span><span class="p">,</span>
+          <span class="n">MiniCParser</span><span class="o">.</span><span class="n">NEQ</span><span class="p">:</span>  <span class="s1">&#39;bne&#39;</span><span class="p">,</span> <span class="n">MiniCParser</span><span class="o">.</span><span class="n">EQ</span><span class="p">:</span>   <span class="s1">&#39;beq&#39;</span><span class="p">}</span>
+<span class="n">opnot_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bgt&#39;</span><span class="p">:</span> <span class="s1">&#39;ble&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;bge&#39;</span><span class="p">:</span> <span class="s1">&#39;blt&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;blt&#39;</span><span class="p">:</span> <span class="s1">&#39;bge&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;ble&#39;</span><span class="p">:</span> <span class="s1">&#39;bgt&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;beq&#39;</span><span class="p">:</span> <span class="s1">&#39;bne&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;bne&#39;</span><span class="p">:</span> <span class="s1">&#39;beq&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;beqz&#39;</span><span class="p">:</span> <span class="s1">&#39;bnez&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;bnez&#39;</span><span class="p">:</span> <span class="s1">&#39;beqz&#39;</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="Condition"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Condition">[docs]</a><span class="k">class</span> <span class="nc">Condition</span><span class="p">(</span><span class="n">Operand</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Condition, i.e. comparison operand for a CondJump.</span>
+
+<span class="sd">    Example usage :</span>
+
+<span class="sd">    - Condition(&#39;beq&#39;) = branch if equal.</span>
+<span class="sd">    - Condition(MiniCParser.LT) = branch if lower than.</span>
+<span class="sd">    - ...</span>
+
+<span class="sd">    The constructor&#39;s argument shall be a string in the list all_ops, or a</span>
+<span class="sd">    comparison operator in MiniCParser.LT, MiniCParser.GT, ... (one of the keys</span>
+<span class="sd">    in opdict).</span>
+
+<span class="sd">    A &#39;negate&#39; method allows getting the negation of this condition.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_op</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optype</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">optype</span> <span class="ow">in</span> <span class="n">opdict</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_op</span> <span class="o">=</span> <span class="n">opdict</span><span class="p">[</span><span class="n">optype</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">optype</span><span class="p">)</span> <span class="ow">in</span> <span class="n">all_ops</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_op</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">optype</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">MiniCInternalError</span><span class="p">(</span><span class="s2">&quot;Unsupported comparison operator </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Condition.negate"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Condition.negate">[docs]</a>    <span class="k">def</span> <span class="nf">negate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Condition&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the opposite condition.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Condition</span><span class="p">(</span><span class="n">opnot_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="p">])</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span></div>
+
+
+<div class="viewcode-block" id="Function"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Function">[docs]</a><span class="k">class</span> <span class="nc">Function</span><span class="p">(</span><span class="n">Operand</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Operand for build-in function call.&quot;&quot;&quot;</span>
+
+    <span class="n">_name</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span></div>
+
+
+<div class="viewcode-block" id="DataLocation"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.DataLocation">[docs]</a><span class="k">class</span> <span class="nc">DataLocation</span><span class="p">(</span><span class="n">Operand</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A Data Location is either a register, a temporary</span>
+<span class="sd">    or a place in memory (offset).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<span class="c1"># map for register shortcuts</span>
+<span class="n">reg_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;zero&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;ra&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;sp&#39;</span><span class="p">)]</span> <span class="o">+</span>  <span class="c1"># no (3, &#39;gp&#39;) nor (4, &#39;tp&#39;)</span>
+               <span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span> <span class="o">+</span>
+               <span class="p">[(</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;fp&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;s1&#39;</span><span class="p">)]</span> <span class="o">+</span>
+               <span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span> <span class="o">+</span>
+               <span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">18</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span> <span class="o">+</span>
+               <span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">28</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)])</span>
+
+
+<div class="viewcode-block" id="Register"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Register">[docs]</a><span class="k">class</span> <span class="nc">Register</span><span class="p">(</span><span class="n">DataLocation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A (physical) register.&quot;&quot;&quot;</span>
+
+    <span class="n">_number</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number</span> <span class="o">=</span> <span class="n">number</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">reg_map</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Register number </span><span class="si">%d</span><span class="s2"> should not be used&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reg_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_number</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Register</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_number</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number</span></div>
+
+
+<span class="c1"># Shortcuts for registers in RISCV</span>
+<span class="c1"># Only integer registers</span>
+<span class="n">ZERO</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">RA</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">SP</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">GP</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># Register not used for this course</span>
+<span class="n">TP</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># Register not used for this course</span>
+<span class="n">A</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">Register</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">S</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">Register</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">8</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">Register</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">18</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">T</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">Register</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">Register</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">28</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">A0</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># function args/return Values: A0, A1</span>
+<span class="n">A1</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">FP</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Frame Pointer = Saved register 0</span>
+
+<span class="c1"># General purpose registers, usable for the allocator</span>
+<span class="n">GP_REGS</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="o">+</span> <span class="n">T</span>  <span class="c1"># s0, s1, s2 and s3 are special</span>
+
+
+<div class="viewcode-block" id="Offset"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Offset">[docs]</a><span class="k">class</span> <span class="nc">Offset</span><span class="p">(</span><span class="n">DataLocation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Offset = address in memory computed with base + offset.&quot;&quot;&quot;</span>
+
+    <span class="n">_basereg</span><span class="p">:</span> <span class="n">Register</span>
+    <span class="n">_offset</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basereg</span><span class="p">:</span> <span class="n">Register</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_basereg</span> <span class="o">=</span> <span class="n">basereg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">=</span> <span class="n">offset</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_basereg</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Offset.get_offset"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Offset.get_offset">[docs]</a>    <span class="k">def</span> <span class="nf">get_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the value of the offset.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span></div></div>
+
+
+<div class="viewcode-block" id="Immediate"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Immediate">[docs]</a><span class="k">class</span> <span class="nc">Immediate</span><span class="p">(</span><span class="n">DataLocation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Immediate operand (integer).&quot;&quot;&quot;</span>
+
+    <span class="n">_val</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_val</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_val</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Temporary"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Temporary">[docs]</a><span class="k">class</span> <span class="nc">Temporary</span><span class="p">(</span><span class="n">DataLocation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Temporary, a location that has not been allocated yet.</span>
+<span class="sd">    It will later be mapped to a physical register (Register) or to a memory location (Offset).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">_pool</span><span class="p">:</span> <span class="s1">&#39;TemporaryPool&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">pool</span><span class="p">:</span> <span class="s1">&#39;TemporaryPool&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number</span> <span class="o">=</span> <span class="n">number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span> <span class="o">=</span> <span class="n">pool</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;temp_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_number</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="Temporary.get_alloced_loc"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Temporary.get_alloced_loc">[docs]</a>    <span class="k">def</span> <span class="nf">get_alloced_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLocation</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the DataLocation allocated to this Temporary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">get_alloced_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="TemporaryPool"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.TemporaryPool">[docs]</a><span class="k">class</span> <span class="nc">TemporaryPool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Manage a pool of temporaries.&quot;&quot;&quot;</span>
+
+    <span class="n">_all_temps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Temporary</span><span class="p">]</span>
+    <span class="n">_current_num</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">_allocation</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Temporary</span><span class="p">,</span> <span class="n">DataLocation</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_all_temps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allocation</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TemporaryPool.get_all_temps"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.TemporaryPool.get_all_temps">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_temps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Temporary</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return all the temporaries of the pool.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_temps</span></div>
+
+<div class="viewcode-block" id="TemporaryPool.get_alloced_loc"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.TemporaryPool.get_alloced_loc">[docs]</a>    <span class="k">def</span> <span class="nf">get_alloced_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Temporary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLocation</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the actual DataLocation allocated for the temporary t.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allocation</span><span class="p">[</span><span class="n">t</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="TemporaryPool.add_tmp"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.TemporaryPool.add_tmp">[docs]</a>    <span class="k">def</span> <span class="nf">add_tmp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Temporary</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a temporary to the pool.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_all_temps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allocation</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>  <span class="c1"># While no allocation, return the temporary itself</span></div>
+
+<div class="viewcode-block" id="TemporaryPool.set_temp_allocation"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.TemporaryPool.set_temp_allocation">[docs]</a>    <span class="k">def</span> <span class="nf">set_temp_allocation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allocation</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Temporary</span><span class="p">,</span> <span class="n">DataLocation</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Give a mapping from temporaries to actual registers.</span>
+<span class="sd">        The argument allocation must be a dict from Temporary to</span>
+<span class="sd">        DataLocation other than Temporary (typically Register or Offset).</span>
+<span class="sd">        Typing enforces that keys are Temporary and values are Datalocation.</span>
+<span class="sd">        We check the values are indeed not Temporary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">allocation</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Temporary</span><span class="p">),</span> <span class="p">(</span>
+                <span class="s2">&quot;Incorrect allocation scheme: value &quot;</span> <span class="o">+</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; is a Temporary.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allocation</span> <span class="o">=</span> <span class="n">allocation</span></div>
+
+<div class="viewcode-block" id="TemporaryPool.fresh_tmp"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.TemporaryPool.fresh_tmp">[docs]</a>    <span class="k">def</span> <span class="nf">fresh_tmp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Temporary</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Give a new fresh Temporary and add it to the pool.&quot;&quot;&quot;</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">Temporary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_current_num</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_num</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_tmp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">t</span></div></div>
+
+
+<div class="viewcode-block" id="Renamer"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Renamer">[docs]</a><span class="k">class</span> <span class="nc">Renamer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Manage a renaming of temporaries.&quot;&quot;&quot;</span>
+
+    <span class="n">_pool</span><span class="p">:</span> <span class="n">TemporaryPool</span>
+    <span class="n">_env</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Temporary</span><span class="p">,</span> <span class="n">Temporary</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool</span><span class="p">:</span> <span class="n">TemporaryPool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span> <span class="o">=</span> <span class="n">pool</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Renamer.fresh"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Renamer.fresh">[docs]</a>    <span class="k">def</span> <span class="nf">fresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Temporary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Temporary</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Give a fresh rename for a Temporary.&quot;&quot;&quot;</span>
+        <span class="n">new_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">fresh_tmp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_env</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_t</span>
+        <span class="k">return</span> <span class="n">new_t</span></div>
+
+<div class="viewcode-block" id="Renamer.replace"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Renamer.replace">[docs]</a>    <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Temporary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Temporary</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Give the rename for a Temporary (which is itself if it is not renamed).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Renamer.defined"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Renamer.defined">[docs]</a>    <span class="k">def</span> <span class="nf">defined</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Temporary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;True if the Temporary is renamed.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_env</span></div>
+
+<div class="viewcode-block" id="Renamer.copy"><a class="viewcode-back" href="../../api/Lib.Operands.html#Lib.Operands.Renamer.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Give a copy of the Renamer.&quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Renamer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">_env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_env</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">r</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, compil-lyon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
