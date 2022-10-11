@@ -47,6 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Lib.FunctionData.html">Base library - Function data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.Allocator.html">Temporary allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
 </ul>
 
         </div>
@@ -76,8 +78,8 @@
   <section id="module-Lib.Errors">
 <span id="lib-errors-module"></span><h1>Lib.Errors module<a class="headerlink" href="#module-Lib.Errors" title="Permalink to this heading"></a></h1>
 <dl class="py exception">
-<dt class="sig sig-object py" id="Lib.Errors.AllocationError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Errors.</span></span><span class="sig-name descname"><span class="pre">AllocationError</span></span><a class="reference internal" href="../_modules/Lib/Errors.html#AllocationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Errors.AllocationError" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Lib.Errors.MiniCRuntimeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Errors.</span></span><span class="sig-name descname"><span class="pre">MiniCRuntimeError</span></span><a class="reference internal" href="../_modules/Lib/Errors.html#MiniCRuntimeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Errors.MiniCRuntimeError" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 </dd></dl>
 
@@ -88,8 +90,8 @@
 </dd></dl>
 
 <dl class="py exception">
-<dt class="sig sig-object py" id="Lib.Errors.MiniCRuntimeError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Errors.</span></span><span class="sig-name descname"><span class="pre">MiniCRuntimeError</span></span><a class="reference internal" href="../_modules/Lib/Errors.html#MiniCRuntimeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Errors.MiniCRuntimeError" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Lib.Errors.MiniCUnsupportedError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Errors.</span></span><span class="sig-name descname"><span class="pre">MiniCUnsupportedError</span></span><a class="reference internal" href="../_modules/Lib/Errors.html#MiniCUnsupportedError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Errors.MiniCUnsupportedError" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 </dd></dl>
 
@@ -100,8 +102,8 @@
 </dd></dl>
 
 <dl class="py exception">
-<dt class="sig sig-object py" id="Lib.Errors.MiniCUnsupportedError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Errors.</span></span><span class="sig-name descname"><span class="pre">MiniCUnsupportedError</span></span><a class="reference internal" href="../_modules/Lib/Errors.html#MiniCUnsupportedError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Errors.MiniCUnsupportedError" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Lib.Errors.AllocationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Errors.</span></span><span class="sig-name descname"><span class="pre">AllocationError</span></span><a class="reference internal" href="../_modules/Lib/Errors.html#AllocationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Errors.AllocationError" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 </dd></dl>
 

@@ -8,12 +8,14 @@ Submodules
    :maxdepth: 4
 
    Lib.Allocator
+   Lib.CFG
    Lib.Errors
    Lib.FunctionData
    Lib.LinearCode
    Lib.Operands
    Lib.RiscV
    Lib.Statement
+   Lib.Terminator
 
 Module contents
 ---------------

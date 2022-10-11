@@ -17,6 +17,8 @@ Welcome to MiniC's documentation!
    Base library - Function data <api/Lib.FunctionData>
    Linear intermediate representation <api/Lib.LinearCode>
    Temporary allocation <api/Lib.Allocator>
+   Control Flow Graph - CFG and Basic blocks <api/Lib.CFG>
+   Control Flow Graph - Terminators <api/Lib.Terminator>
 
 These pages document the various Python sources in the Lib/
 folder of MiniC. You should not have to edit them *at all*.
@@ -45,6 +47,12 @@ Temporary allocation
 
 Before implementing the all-in-memory allocator of lab 4a,
 you should understand the naive allocator in the :doc:`api/Lib.Allocator`.
+
+Control Flow Graph Intermediate representation
+----------------------------------------------
+
+The classes for the CFG and its basic blocks are in the :doc:`api/Lib.CFG`.
+Each block ends with a terminator, as documented in the :doc:`api/Lib.Terminator`.
 
 Indices and tables
 ==================

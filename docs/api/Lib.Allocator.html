@@ -19,6 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lib.CFG module" href="Lib.CFG.html" />
     <link rel="prev" title="Lib.LinearCode module" href="Lib.LinearCode.html" /> 
 </head>
 
@@ -46,6 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Lib.FunctionData.html">Base library - Function data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Temporary allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
 </ul>
 
         </div>
@@ -122,16 +125,16 @@ registers or memory locations.</p>
 <p>Naive Allocator: try to assign a register to each temporary,
 fails if there are more temporaries than registers.</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="Lib.Allocator.NaiveAllocator.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><span class="pre">Instruction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><span class="pre">Instruction</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Allocator.html#NaiveAllocator.replace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.NaiveAllocator.replace" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Temporary operands with the corresponding allocated Register.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Lib.Allocator.NaiveAllocator.prepare">
 <span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/Allocator.html#NaiveAllocator.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.NaiveAllocator.prepare" title="Permalink to this definition"></a></dt>
 <dd><p>Allocate all temporaries to registers.
 Fail if there are too many temporaries.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Allocator.NaiveAllocator.replace">
-<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><span class="pre">Instruction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><span class="pre">Instruction</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Allocator.html#NaiveAllocator.replace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Allocator.NaiveAllocator.replace" title="Permalink to this definition"></a></dt>
-<dd><p>Replace Temporary operands with the corresponding allocated Register.</p>
 </dd></dl>
 
 </dd></dl>
@@ -143,6 +146,7 @@ Fail if there are too many temporaries.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Lib.LinearCode.html" class="btn btn-neutral float-left" title="Lib.LinearCode module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lib.CFG.html" class="btn btn-neutral float-right" title="Lib.CFG module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

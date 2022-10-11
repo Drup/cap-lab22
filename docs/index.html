@@ -46,6 +46,8 @@
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.FunctionData.html">Base library - Function data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Allocator.html">Temporary allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
 </ul>
 
         </div>
@@ -84,6 +86,8 @@
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.FunctionData.html">Base library - Function data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Allocator.html">Temporary allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
 </ul>
 </div>
 <p>These pages document the various Python sources in the Lib/
@@ -107,6 +111,11 @@ modeled as a list of statements.</p>
 <h2>Temporary allocation<a class="headerlink" href="#temporary-allocation" title="Permalink to this heading"></a></h2>
 <p>Before implementing the all-in-memory allocator of lab 4a,
 you should understand the naive allocator in the <a class="reference internal" href="api/Lib.Allocator.html"><span class="doc">Lib.Allocator module</span></a>.</p>
+</section>
+<section id="control-flow-graph-intermediate-representation">
+<h2>Control Flow Graph Intermediate representation<a class="headerlink" href="#control-flow-graph-intermediate-representation" title="Permalink to this heading"></a></h2>
+<p>The classes for the CFG and its basic blocks are in the <a class="reference internal" href="api/Lib.CFG.html"><span class="doc">Lib.CFG module</span></a>.
+Each block ends with a terminator, as documented in the <a class="reference internal" href="api/Lib.Terminator.html"><span class="doc">Lib.Terminator module</span></a>.</p>
 </section>
 </section>
 <section id="indices-and-tables">

@@ -47,6 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Lib.FunctionData.html">Base library - Function data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.Allocator.html">Temporary allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
 </ul>
 
         </div>
@@ -81,16 +83,156 @@ and <a class="reference internal" href="#Lib.Statement.Instruction" title="Lib.S
 is inherited by <a class="reference internal" href="#Lib.Statement.Instru3A" title="Lib.Statement.Instru3A"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instru3A</span></code></a>
 (for regular non-branching 3-address instructions),
 <a class="reference internal" href="#Lib.Statement.AbsoluteJump" title="Lib.Statement.AbsoluteJump"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbsoluteJump</span></code></a> and <a class="reference internal" href="#Lib.Statement.ConditionalJump" title="Lib.Statement.ConditionalJump"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConditionalJump</span></code></a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="Lib.Statement.regset_to_string">
+<span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">regset_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registerset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#regset_to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.regset_to_string" title="Permalink to this definition"></a></dt>
+<dd><p>Utility function: pretty-prints a set of locations.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.Statement.Statement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Statement</span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Statement, which is an instruction, a comment or a label.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Statement.defined">
+<span class="sig-name descname"><span class="pre">defined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement.defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement.defined" title="Permalink to this definition"></a></dt>
+<dd><p>Operands defined (written) in this instruction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Statement.used">
+<span class="sig-name descname"><span class="pre">used</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement.used"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement.used" title="Permalink to this definition"></a></dt>
+<dd><p>Operands used (read) in this instruction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Statement.substitute">
+<span class="sig-name descname"><span class="pre">substitute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TStatement</span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement.substitute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement.substitute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Statement.printIns">
+<span class="sig-name descname"><span class="pre">printIns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement.printIns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement.printIns" title="Permalink to this definition"></a></dt>
+<dd><p>Print the statement on the given output.
+Should never be called on the base class.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.Statement.Comment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Comment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Comment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Statement" title="Lib.Statement.Statement"><code class="xref py py-class docutils literal notranslate"><span class="pre">Statement</span></code></a></p>
+<p>A comment.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Lib.Statement.Comment.comment">
+<span class="sig-name descname"><span class="pre">comment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#Lib.Statement.Comment.comment" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Comment.printIns">
+<span class="sig-name descname"><span class="pre">printIns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Comment.printIns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Comment.printIns" title="Permalink to this definition"></a></dt>
+<dd><p>Print the statement on the given output.
+Should never be called on the base class.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.Statement.Label">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Label" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Statement" title="Lib.Statement.Statement"><code class="xref py py-class docutils literal notranslate"><span class="pre">Statement</span></code></a>, <a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operand</span></code></a></p>
+<p>A label is both a Statement and an Operand.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Lib.Statement.Label.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#Lib.Statement.Label.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Label.printIns">
+<span class="sig-name descname"><span class="pre">printIns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Label.printIns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Label.printIns" title="Permalink to this definition"></a></dt>
+<dd><p>Print the statement on the given output.
+Should never be called on the base class.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.Statement.Instruction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Instruction</span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Statement" title="Lib.Statement.Statement"><code class="xref py py-class docutils literal notranslate"><span class="pre">Statement</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Lib.Statement.Instruction.ins">
+<span class="sig-name descname"><span class="pre">ins</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#Lib.Statement.Instruction.ins" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Instruction.is_read_only">
+<span class="sig-name descname"><span class="pre">is_read_only</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.is_read_only"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.is_read_only" title="Permalink to this definition"></a></dt>
+<dd><p>True if the instruction only reads from its operands.</p>
+<p>Otherwise, the first operand is considered as the destination
+and others are source.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Instruction.rename">
+<span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renamer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Renamer" title="Lib.Operands.Renamer"><span class="pre">Renamer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.rename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.rename" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Instruction.args">
+<span class="sig-name descname"><span class="pre">args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.args" title="Permalink to this definition"></a></dt>
+<dd><p>List of operands the instruction takes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Instruction.defined">
+<span class="sig-name descname"><span class="pre">defined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.defined" title="Permalink to this definition"></a></dt>
+<dd><p>Operands defined (written) in this instruction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Instruction.used">
+<span class="sig-name descname"><span class="pre">used</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.used"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.used" title="Permalink to this definition"></a></dt>
+<dd><p>Operands used (read) in this instruction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Instruction.printIns">
+<span class="sig-name descname"><span class="pre">printIns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.printIns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.printIns" title="Permalink to this definition"></a></dt>
+<dd><p>Print the instruction on the given output.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.Statement.Instru3A">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Instru3A</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ins</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Lib.Operands.Operand</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instru3A"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instru3A" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Instru3A.args">
+<span class="sig-name descname"><span class="pre">args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instru3A.args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instru3A.args" title="Permalink to this definition"></a></dt>
+<dd><p>List of operands the instruction takes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Instru3A.rename">
+<span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renamer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Renamer" title="Lib.Operands.Renamer"><span class="pre">Renamer</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instru3A.rename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instru3A.rename" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.Instru3A.substitute">
+<span class="sig-name descname"><span class="pre">substitute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instru3A.substitute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instru3A.substitute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="Lib.Statement.AbsoluteJump">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">AbsoluteJump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#AbsoluteJump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.AbsoluteJump" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a></p>
 <p>An Absolute Jump is a specific kind of instruction</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.AbsoluteJump.args">
-<span class="sig-name descname"><span class="pre">args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#AbsoluteJump.args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.AbsoluteJump.args" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Lib.Statement.AbsoluteJump.ins">
 <span class="sig-name descname"><span class="pre">ins</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'j'</span></em><a class="headerlink" href="#Lib.Statement.AbsoluteJump.ins" title="Permalink to this definition"></a></dt>
@@ -100,6 +242,12 @@ is inherited by <a class="reference internal" href="#Lib.Statement.Instru3A" tit
 <dt class="sig sig-object py" id="Lib.Statement.AbsoluteJump.label">
 <span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></em><a class="headerlink" href="#Lib.Statement.AbsoluteJump.label" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.AbsoluteJump.args">
+<span class="sig-name descname"><span class="pre">args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#AbsoluteJump.args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.AbsoluteJump.args" title="Permalink to this definition"></a></dt>
+<dd><p>List of operands the instruction takes</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Lib.Statement.AbsoluteJump.rename">
@@ -119,34 +267,10 @@ is inherited by <a class="reference internal" href="#Lib.Statement.Instru3A" tit
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="Lib.Statement.Comment">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Comment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Comment" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Statement" title="Lib.Statement.Statement"><code class="xref py py-class docutils literal notranslate"><span class="pre">Statement</span></code></a></p>
-<p>A comment.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Lib.Statement.Comment.comment">
-<span class="sig-name descname"><span class="pre">comment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#Lib.Statement.Comment.comment" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Comment.printIns">
-<span class="sig-name descname"><span class="pre">printIns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Comment.printIns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Comment.printIns" title="Permalink to this definition"></a></dt>
-<dd><p>Print the statement on the output.
-Should never be called on the base class.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="Lib.Statement.ConditionalJump">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">ConditionalJump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Condition" title="Lib.Operands.Condition"><span class="pre">Condition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">op1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">op2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#ConditionalJump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.ConditionalJump" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a></p>
 <p>A Conditional Jump is a specific kind of instruction</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.ConditionalJump.args">
-<span class="sig-name descname"><span class="pre">args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#ConditionalJump.args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.ConditionalJump.args" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Lib.Statement.ConditionalJump.cond">
 <span class="sig-name descname"><span class="pre">cond</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Condition" title="Lib.Operands.Condition"><span class="pre">Condition</span></a></em><a class="headerlink" href="#Lib.Statement.ConditionalJump.cond" title="Permalink to this definition"></a></dt>
@@ -168,6 +292,12 @@ Should never be called on the base class.</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Lib.Statement.ConditionalJump.args">
+<span class="sig-name descname"><span class="pre">args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#ConditionalJump.args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.ConditionalJump.args" title="Permalink to this definition"></a></dt>
+<dd><p>List of operands the instruction takes</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Lib.Statement.ConditionalJump.rename">
 <span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renamer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Renamer" title="Lib.Operands.Renamer"><span class="pre">Renamer</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#ConditionalJump.rename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.ConditionalJump.rename" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -177,126 +307,6 @@ Should never be called on the base class.</p>
 <span class="sig-name descname"><span class="pre">substitute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#ConditionalJump.substitute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.ConditionalJump.substitute" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="Lib.Statement.Instru3A">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Instru3A</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ins</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Lib.Operands.Operand</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instru3A"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instru3A" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Instruction" title="Lib.Statement.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Instru3A.args">
-<span class="sig-name descname"><span class="pre">args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instru3A.args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instru3A.args" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Instru3A.rename">
-<span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renamer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Renamer" title="Lib.Operands.Renamer"><span class="pre">Renamer</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instru3A.rename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instru3A.rename" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Instru3A.substitute">
-<span class="sig-name descname"><span class="pre">substitute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instru3A.substitute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instru3A.substitute" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="Lib.Statement.Instruction">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Instruction</span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Statement" title="Lib.Statement.Statement"><code class="xref py py-class docutils literal notranslate"><span class="pre">Statement</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Instruction.args">
-<span class="sig-name descname"><span class="pre">args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.args" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Instruction.defined">
-<span class="sig-name descname"><span class="pre">defined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.defined" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Lib.Statement.Instruction.ins">
-<span class="sig-name descname"><span class="pre">ins</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#Lib.Statement.Instruction.ins" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Instruction.is_read_only">
-<span class="sig-name descname"><span class="pre">is_read_only</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.is_read_only"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.is_read_only" title="Permalink to this definition"></a></dt>
-<dd><p>True if the instruction only reads from its operands.</p>
-<p>Otherwise, the first operand is considered as the destination
-and others are source.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Instruction.printIns">
-<span class="sig-name descname"><span class="pre">printIns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.printIns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.printIns" title="Permalink to this definition"></a></dt>
-<dd><p>Print the instruction on the output.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Instruction.rename">
-<span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renamer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Renamer" title="Lib.Operands.Renamer"><span class="pre">Renamer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.rename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.rename" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Instruction.used">
-<span class="sig-name descname"><span class="pre">used</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Instruction.used"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Instruction.used" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="Lib.Statement.Label">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Label" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Lib.Statement.Statement" title="Lib.Statement.Statement"><code class="xref py py-class docutils literal notranslate"><span class="pre">Statement</span></code></a>, <a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operand</span></code></a></p>
-<p>A label is both a Statement and an Operand.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Lib.Statement.Label.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#Lib.Statement.Label.name" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Label.printIns">
-<span class="sig-name descname"><span class="pre">printIns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Label.printIns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Label.printIns" title="Permalink to this definition"></a></dt>
-<dd><p>Print the statement on the output.
-Should never be called on the base class.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="Lib.Statement.Statement">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">Statement</span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A Statement, which is an instruction, a comment or a label.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Statement.defined">
-<span class="sig-name descname"><span class="pre">defined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement.defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement.defined" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Statement.printIns">
-<span class="sig-name descname"><span class="pre">printIns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement.printIns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement.printIns" title="Permalink to this definition"></a></dt>
-<dd><p>Print the statement on the output.
-Should never be called on the base class.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Statement.substitute">
-<span class="sig-name descname"><span class="pre">substitute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TStatement</span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement.substitute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement.substitute" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Statement.Statement.used">
-<span class="sig-name descname"><span class="pre">used</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Statement.html#Statement.used"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.Statement.used" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="Lib.Statement.regset_to_string">
-<span class="sig-prename descclassname"><span class="pre">Lib.Statement.</span></span><span class="sig-name descname"><span class="pre">regset_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registerset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Statement.html#regset_to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Statement.regset_to_string" title="Permalink to this definition"></a></dt>
-<dd><p>Utility function: pretty-prints a set of locations.</p>
 </dd></dl>
 
 </section>

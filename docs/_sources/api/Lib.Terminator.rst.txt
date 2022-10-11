@@ -1,0 +1,7 @@
+Lib.Terminator module
+=====================
+
+.. automodule:: Lib.Terminator
+   :members:
+   :undoc-members:
+   :show-inheritance:

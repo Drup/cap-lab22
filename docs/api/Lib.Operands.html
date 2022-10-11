@@ -47,6 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Lib.FunctionData.html">Base library - Function data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.Allocator.html">Temporary allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
 </ul>
 
         </div>
@@ -84,6 +86,12 @@ and its subclasses for different operands: <a class="reference internal" href="#
 for location not yet allocated.</p>
 <p>This file also define shortcuts for registers in RISCV.</p>
 <dl class="py class">
+<dt class="sig sig-object py" id="Lib.Operands.Operand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Operand</span></span><a class="reference internal" href="../_modules/Lib/Operands.html#Operand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Operand" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="Lib.Operands.Condition">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Condition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Condition" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#Lib.Operands.Operand" title="Lib.Operands.Operand"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operand</span></code></a></p>
@@ -107,6 +115,13 @@ in opdict).</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="Lib.Operands.Function">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Function" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Lib.Operands.Operand" title="Lib.Operands.Operand"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operand</span></code></a></p>
+<p>Operand for build-in function call.</p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="Lib.Operands.DataLocation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">DataLocation</span></span><a class="reference internal" href="../_modules/Lib/Operands.html#DataLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.DataLocation" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#Lib.Operands.Operand" title="Lib.Operands.Operand"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operand</span></code></a></p>
@@ -115,17 +130,72 @@ or a place in memory (offset).</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="Lib.Operands.Function">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Function" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Lib.Operands.Operand" title="Lib.Operands.Operand"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operand</span></code></a></p>
-<p>Operand for build-in function call.</p>
+<dt class="sig sig-object py" id="Lib.Operands.Register">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Register" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Lib.Operands.DataLocation" title="Lib.Operands.DataLocation"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLocation</span></code></a></p>
+<p>A (physical) register.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="Lib.Operands.Immediate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Immediate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Immediate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Immediate" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Lib.Operands.DataLocation" title="Lib.Operands.DataLocation"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLocation</span></code></a></p>
-<p>Immediate operand (integer).</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.ZERO">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">ZERO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">zero</span></em><a class="headerlink" href="#Lib.Operands.ZERO" title="Permalink to this definition"></a></dt>
+<dd><p>Zero register</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.RA">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">RA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ra</span></em><a class="headerlink" href="#Lib.Operands.RA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.SP">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">SP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">sp</span></em><a class="headerlink" href="#Lib.Operands.SP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.GP">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">GP</span></span><a class="headerlink" href="#Lib.Operands.GP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.TP">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">TP</span></span><a class="headerlink" href="#Lib.Operands.TP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.A">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">A</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(a0,</span> <span class="pre">a1,</span> <span class="pre">a2,</span> <span class="pre">a3,</span> <span class="pre">a4,</span> <span class="pre">a5,</span> <span class="pre">a6,</span> <span class="pre">a7)</span></em><a class="headerlink" href="#Lib.Operands.A" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.S">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">S</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(fp,</span> <span class="pre">s1,</span> <span class="pre">s2,</span> <span class="pre">s3,</span> <span class="pre">s4,</span> <span class="pre">s5,</span> <span class="pre">s6,</span> <span class="pre">s7,</span> <span class="pre">s8,</span> <span class="pre">s9,</span> <span class="pre">s10,</span> <span class="pre">s11)</span></em><a class="headerlink" href="#Lib.Operands.S" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.T">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(t0,</span> <span class="pre">t1,</span> <span class="pre">t2,</span> <span class="pre">t3,</span> <span class="pre">t4,</span> <span class="pre">t5,</span> <span class="pre">t6)</span></em><a class="headerlink" href="#Lib.Operands.T" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.A0">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">A0</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">a0</span></em><a class="headerlink" href="#Lib.Operands.A0" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.A1">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">A1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">a1</span></em><a class="headerlink" href="#Lib.Operands.A1" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.FP">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">FP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">fp</span></em><a class="headerlink" href="#Lib.Operands.FP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Lib.Operands.GP_REGS">
+<span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">GP_REGS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(s4,</span> <span class="pre">s5,</span> <span class="pre">s6,</span> <span class="pre">s7,</span> <span class="pre">s8,</span> <span class="pre">s9,</span> <span class="pre">s10,</span> <span class="pre">s11,</span> <span class="pre">t0,</span> <span class="pre">t1,</span> <span class="pre">t2,</span> <span class="pre">t3,</span> <span class="pre">t4,</span> <span class="pre">t5,</span> <span class="pre">t6)</span></em><a class="headerlink" href="#Lib.Operands.GP_REGS" title="Permalink to this definition"></a></dt>
+<dd><p>General purpose registers, usable for the allocator</p>
 </dd></dl>
 
 <dl class="py class">
@@ -142,47 +212,10 @@ or a place in memory (offset).</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="Lib.Operands.Operand">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Operand</span></span><a class="reference internal" href="../_modules/Lib/Operands.html#Operand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Operand" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="Lib.Operands.Register">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Register" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Lib.Operands.Immediate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Immediate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Immediate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Immediate" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#Lib.Operands.DataLocation" title="Lib.Operands.DataLocation"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLocation</span></code></a></p>
-<p>A (physical) register.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="Lib.Operands.Renamer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Renamer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.TemporaryPool" title="Lib.Operands.TemporaryPool"><span class="pre">TemporaryPool</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Manage a renaming of temporaries.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Operands.Renamer.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer.copy" title="Permalink to this definition"></a></dt>
-<dd><p>Give a copy of the Renamer.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Operands.Renamer.defined">
-<span class="sig-name descname"><span class="pre">defined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer.defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer.defined" title="Permalink to this definition"></a></dt>
-<dd><p>True if the Temporary is renamed.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Operands.Renamer.fresh">
-<span class="sig-name descname"><span class="pre">fresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer.fresh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer.fresh" title="Permalink to this definition"></a></dt>
-<dd><p>Give a fresh rename for a Temporary.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Operands.Renamer.replace">
-<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer.replace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer.replace" title="Permalink to this definition"></a></dt>
-<dd><p>Give the rename for a Temporary (which is itself if it is not renamed).</p>
-</dd></dl>
-
+<p>Immediate operand (integer).</p>
 </dd></dl>
 
 <dl class="py class">
@@ -205,18 +238,6 @@ It will later be mapped to a physical register (Register) or to a memory locatio
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Manage a pool of temporaries.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="Lib.Operands.TemporaryPool.add_tmp">
-<span class="sig-name descname"><span class="pre">add_tmp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#TemporaryPool.add_tmp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.TemporaryPool.add_tmp" title="Permalink to this definition"></a></dt>
-<dd><p>Add a temporary to the pool.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.Operands.TemporaryPool.fresh_tmp">
-<span class="sig-name descname"><span class="pre">fresh_tmp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#TemporaryPool.fresh_tmp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.TemporaryPool.fresh_tmp" title="Permalink to this definition"></a></dt>
-<dd><p>Give a new fresh Temporary and add it to the pool.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="Lib.Operands.TemporaryPool.get_all_temps">
 <span class="sig-name descname"><span class="pre">get_all_temps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#TemporaryPool.get_all_temps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.TemporaryPool.get_all_temps" title="Permalink to this definition"></a></dt>
 <dd><p>Return all the temporaries of the pool.</p>
@@ -229,6 +250,12 @@ It will later be mapped to a physical register (Register) or to a memory locatio
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Lib.Operands.TemporaryPool.add_tmp">
+<span class="sig-name descname"><span class="pre">add_tmp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#TemporaryPool.add_tmp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.TemporaryPool.add_tmp" title="Permalink to this definition"></a></dt>
+<dd><p>Add a temporary to the pool.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Lib.Operands.TemporaryPool.set_temp_allocation">
 <span class="sig-name descname"><span class="pre">set_temp_allocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allocation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#Lib.Operands.DataLocation" title="Lib.Operands.DataLocation"><span class="pre">DataLocation</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#TemporaryPool.set_temp_allocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.TemporaryPool.set_temp_allocation" title="Permalink to this definition"></a></dt>
 <dd><p>Give a mapping from temporaries to actual registers.
@@ -236,6 +263,43 @@ The argument allocation must be a dict from Temporary to
 DataLocation other than Temporary (typically Register or Offset).
 Typing enforces that keys are Temporary and values are Datalocation.
 We check the values are indeed not Temporary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Operands.TemporaryPool.fresh_tmp">
+<span class="sig-name descname"><span class="pre">fresh_tmp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#TemporaryPool.fresh_tmp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.TemporaryPool.fresh_tmp" title="Permalink to this definition"></a></dt>
+<dd><p>Give a new fresh Temporary and add it to the pool.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Lib.Operands.Renamer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Lib.Operands.</span></span><span class="sig-name descname"><span class="pre">Renamer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.TemporaryPool" title="Lib.Operands.TemporaryPool"><span class="pre">TemporaryPool</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manage a renaming of temporaries.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Operands.Renamer.fresh">
+<span class="sig-name descname"><span class="pre">fresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer.fresh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer.fresh" title="Permalink to this definition"></a></dt>
+<dd><p>Give a fresh rename for a Temporary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Operands.Renamer.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer.replace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer.replace" title="Permalink to this definition"></a></dt>
+<dd><p>Give the rename for a Temporary (which is itself if it is not renamed).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Operands.Renamer.defined">
+<span class="sig-name descname"><span class="pre">defined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Lib.Operands.Temporary" title="Lib.Operands.Temporary"><span class="pre">Temporary</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer.defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer.defined" title="Permalink to this definition"></a></dt>
+<dd><p>True if the Temporary is renamed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Operands.Renamer.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Operands.html#Renamer.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Operands.Renamer.copy" title="Permalink to this definition"></a></dt>
+<dd><p>Give a copy of the Renamer.</p>
 </dd></dl>
 
 </dd></dl>

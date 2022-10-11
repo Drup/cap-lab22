@@ -47,6 +47,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Base library - Function data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.Allocator.html">Temporary allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
 </ul>
 
         </div>
@@ -90,16 +92,9 @@ and div_by_zero label.</p>
 different intermediate representations we work with,
 such as <a class="reference internal" href="Lib.LinearCode.html#Lib.LinearCode.LinearCode.fdata" title="Lib.LinearCode.LinearCode.fdata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Lib.LinearCode.LinearCode.fdata</span></code></a>.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.fresh_label">
-<span class="sig-name descname"><span class="pre">fresh_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.fresh_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.fresh_label" title="Permalink to this definition"></a></dt>
-<dd><p>Return a new label, with a unique name based on the given string.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.fresh_offset">
-<span class="sig-name descname"><span class="pre">fresh_offset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Offset" title="Lib.Operands.Offset"><span class="pre">Offset</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.fresh_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.fresh_offset" title="Permalink to this definition"></a></dt>
-<dd><p>Return a new offset in the memory stack.
-Offsets are decreasing relative to FP.</p>
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.get_name" title="Permalink to this definition"></a></dt>
+<dd><p>Return the name of the function.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -110,14 +105,10 @@ which is added to the pool.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.get_label_div_by_zero">
-<span class="sig-name descname"><span class="pre">get_label_div_by_zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.get_label_div_by_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.get_label_div_by_zero" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.get_name">
-<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.get_name" title="Permalink to this definition"></a></dt>
-<dd><p>Return the name of the function.</p>
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.fresh_offset">
+<span class="sig-name descname"><span class="pre">fresh_offset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Offset" title="Lib.Operands.Offset"><span class="pre">Offset</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.fresh_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.fresh_offset" title="Permalink to this definition"></a></dt>
+<dd><p>Return a new offset in the memory stack.
+Offsets are decreasing relative to FP.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -125,6 +116,17 @@ which is added to the pool.</p>
 <span class="sig-name descname"><span class="pre">get_offset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.get_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.get_offset" title="Permalink to this definition"></a></dt>
 <dd><p>Return the current offset in the memory stack.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.fresh_label">
+<span class="sig-name descname"><span class="pre">fresh_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.fresh_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.fresh_label" title="Permalink to this definition"></a></dt>
+<dd><p>Return a new label, with a unique name based on the given string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.FunctionData.FunctionData.get_label_div_by_zero">
+<span class="sig-name descname"><span class="pre">get_label_div_by_zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Lib.Statement.html#Lib.Statement.Label" title="Lib.Statement.Label"><span class="pre">Label</span></a></span></span><a class="reference internal" href="../_modules/Lib/FunctionData.html#FunctionData.get_label_div_by_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.FunctionData.FunctionData.get_label_div_by_zero" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

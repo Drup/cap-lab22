@@ -1,0 +1,7 @@
+Lib.CFG module
+==============
+
+.. automodule:: Lib.CFG
+   :members:
+   :undoc-members:
+   :show-inheritance:

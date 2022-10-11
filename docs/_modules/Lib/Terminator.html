@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lib.Terminator &mdash; MiniC  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MiniC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Errors.html">Base library - Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Statement.html">Base library - Statement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.RiscV.html">Base library - RISC-V instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Operands.html">Base library - Operands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.LinearCode.html">Linear intermediate representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Allocator.html">Temporary allocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MiniC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>Lib.Terminator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Lib.Terminator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">MIF08, CAP, CFG library - Terminators.</span>
+
+<span class="sd">Each :py:class:`block &lt;Lib.CFG.Block&gt;` of a :py:class:`CFG &lt;Lib.CFG.CFG&gt;`</span>
+<span class="sd">ends with a branching instruction called a terminator.</span>
+<span class="sd">There are three kinds of terminators:</span>
+
+<span class="sd">- :py:class:`Lib.Statement.AbsoluteJump` is a non-conditional jump</span>
+<span class="sd">  to another block of the CFG</span>
+<span class="sd">- :py:class:`BranchingTerminator` is a conditional branching</span>
+<span class="sd">  instruction with two successor blocks.</span>
+<span class="sd">  Unlike the class :py:class:`ConditionalJump &lt;Lib.Statement.ConditionalJump&gt;`</span>
+<span class="sd">  that was used in :py:class:`LinearCode &lt;Lib.LinearCode.LinearCode&gt;`,</span>
+<span class="sd">  both successor labels have to be specified.</span>
+<span class="sd">- :py:class:`Return` marks the end of the function</span>
+
+<span class="sd">During the construction of the CFG, :py:func:`jump2terminator` builds</span>
+<span class="sd">a terminator for each extracted chunk of instructions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">Lib.Errors</span> <span class="kn">import</span> <span class="n">MiniCInternalError</span>
+<span class="kn">from</span> <span class="nn">Lib.Operands</span> <span class="kn">import</span> <span class="n">Operand</span><span class="p">,</span> <span class="n">Renamer</span><span class="p">,</span> <span class="n">Temporary</span><span class="p">,</span> <span class="n">Condition</span>
+<span class="kn">from</span> <span class="nn">Lib.Statement</span> <span class="kn">import</span> <span class="n">AbsoluteJump</span><span class="p">,</span> <span class="n">ConditionalJump</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">Statement</span>
+
+
+<div class="viewcode-block" id="Return"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.Return">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">unsafe_hash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Return</span><span class="p">(</span><span class="n">Statement</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A terminator that marks the end of the function.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;return&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Return.printIns"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.Return.printIns">[docs]</a>    <span class="k">def</span> <span class="nf">printIns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;return&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">stream</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Return.targets"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.Return.targets">[docs]</a>    <span class="k">def</span> <span class="nf">targets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Label</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return the labels targetted by the Return terminator.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Return.args"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.Return.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Operand</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Return.rename"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.Return.rename">[docs]</a>    <span class="k">def</span> <span class="nf">rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renamer</span><span class="p">:</span> <span class="n">Renamer</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Return.substitute"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.Return.substitute">[docs]</a>    <span class="k">def</span> <span class="nf">substitute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subst</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Operand</span><span class="p">,</span> <span class="n">Operand</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">subst</span> <span class="o">!=</span> <span class="p">{}:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;substitute: No possible substitution on instruction </span><span class="si">{}</span><span class="s2">&quot;</span>
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+
+<div class="viewcode-block" id="BranchingTerminator"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.BranchingTerminator">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">BranchingTerminator</span><span class="p">(</span><span class="n">Instruction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A terminating statement with a condition.&quot;&quot;&quot;</span>
+
+    <span class="c1">#: The condition of the branch</span>
+    <span class="n">cond</span><span class="p">:</span> <span class="n">Condition</span>
+    <span class="c1">#: The destination label if the condition is true</span>
+    <span class="n">label_then</span><span class="p">:</span> <span class="n">Label</span>
+    <span class="c1">#: The destination label if the condition is false</span>
+    <span class="n">label_else</span><span class="p">:</span> <span class="n">Label</span>
+    <span class="c1">#: The first operand of the condition</span>
+    <span class="n">op1</span><span class="p">:</span> <span class="n">Operand</span>
+    <span class="c1">#: The second operand of the condition</span>
+    <span class="n">op2</span><span class="p">:</span> <span class="n">Operand</span>
+    <span class="n">_read_only</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cond</span><span class="p">:</span> <span class="n">Condition</span><span class="p">,</span> <span class="n">op1</span><span class="p">:</span> <span class="n">Operand</span><span class="p">,</span> <span class="n">op2</span><span class="p">:</span> <span class="n">Operand</span><span class="p">,</span>
+                 <span class="n">label_then</span><span class="p">:</span> <span class="n">Label</span><span class="p">,</span> <span class="n">label_else</span><span class="p">:</span> <span class="n">Label</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cond</span> <span class="o">=</span> <span class="n">cond</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_then</span> <span class="o">=</span> <span class="n">label_then</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_else</span> <span class="o">=</span> <span class="n">label_else</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">op1</span> <span class="o">=</span> <span class="n">op1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">op2</span> <span class="o">=</span> <span class="n">op2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ins</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BranchingTerminator.args"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.BranchingTerminator.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Operand</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">op1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">op2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_then</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_else</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BranchingTerminator.targets"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.BranchingTerminator.targets">[docs]</a>    <span class="k">def</span> <span class="nf">targets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Label</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return the labels targetted by the Branching terminator.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">label_then</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_else</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BranchingTerminator.rename"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.BranchingTerminator.rename">[docs]</a>    <span class="k">def</span> <span class="nf">rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renamer</span><span class="p">:</span> <span class="n">Renamer</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op1</span><span class="p">,</span> <span class="n">Temporary</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">op1</span> <span class="o">=</span> <span class="n">renamer</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op2</span><span class="p">,</span> <span class="n">Temporary</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">op2</span> <span class="o">=</span> <span class="n">renamer</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BranchingTerminator.substitute"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.BranchingTerminator.substitute">[docs]</a>    <span class="k">def</span> <span class="nf">substitute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subst</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Operand</span><span class="p">,</span> <span class="n">Operand</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">subst</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">&quot;substitute: Operand </span><span class="si">{}</span><span class="s2"> is not present in instruction </span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span>
+        <span class="n">op1</span> <span class="o">=</span> <span class="n">subst</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">op1</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op1</span><span class="p">,</span> <span class="n">Temporary</span><span class="p">)</span> \
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">op1</span>
+        <span class="n">op2</span> <span class="o">=</span> <span class="n">subst</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">op2</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op2</span><span class="p">,</span> <span class="n">Temporary</span><span class="p">)</span> \
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">op2</span>
+        <span class="k">return</span> <span class="n">BranchingTerminator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cond</span><span class="p">,</span> <span class="n">op1</span><span class="p">,</span> <span class="n">op2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_then</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_else</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">super</span><span class="p">)</span></div>
+
+
+<span class="n">Terminator</span> <span class="o">=</span> <span class="n">Return</span> <span class="o">|</span> <span class="n">AbsoluteJump</span> <span class="o">|</span> <span class="n">BranchingTerminator</span>
+
+
+<div class="viewcode-block" id="jump2terminator"><a class="viewcode-back" href="../../api/Lib.Terminator.html#Lib.Terminator.jump2terminator">[docs]</a><span class="k">def</span> <span class="nf">jump2terminator</span><span class="p">(</span><span class="n">j</span><span class="p">:</span> <span class="n">ConditionalJump</span> <span class="o">|</span> <span class="n">AbsoluteJump</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">next_label</span><span class="p">:</span> <span class="n">Label</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Terminator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Construct the Terminator associated to the potential jump j</span>
+<span class="sd">    to the potential label next_label.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">match</span> <span class="n">j</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">ConditionalJump</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">next_label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">MiniCInternalError</span><span class="p">(</span>
+                    <span class="s2">&quot;jump2terminator: Missing secondary label for instruction </span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+            <span class="n">label_else</span> <span class="o">=</span> <span class="n">next_label</span>
+            <span class="k">return</span> <span class="n">BranchingTerminator</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">cond</span><span class="p">,</span> <span class="n">j</span><span class="o">.</span><span class="n">op1</span><span class="p">,</span> <span class="n">j</span><span class="o">.</span><span class="n">op2</span><span class="p">,</span> <span class="n">j</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">label_else</span><span class="p">)</span>
+        <span class="k">case</span> <span class="n">AbsoluteJump</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">AbsoluteJump</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">j</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">case</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">next_label</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">AbsoluteJump</span><span class="p">(</span><span class="n">next_label</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Return</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, compil-lyon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

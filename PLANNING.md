@@ -60,7 +60,7 @@ _Academic first semester 2022-2023_
 
 # Week 5:
 
-- :hammer: Lab 3: Wednesday 05/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+- :hammer: Lab 4a: Wednesday 05/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
 
   * Syntax directed code generation [TP04](MiniC/TP04/tp4.pdf).
   * Code in [MiniC/TP04/](MiniC/TP04/).
@@ -69,3 +69,11 @@ _Academic first semester 2022-2023_
 - :book: 5th Course session: Friday 70/10/2022, 10:15. Amphi B (Gabriel Radanne)
 
   * CFG [slides in english](course/capmif_cours06_irs.pdf).
+
+# Week 5:
+
+- :hammer: Lab 4b: Wednesday 12/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+
+  * Syntax directed code generation [TP04b](MiniC/TP04/tp4b.pdf).
+  * Code in [MiniC/TP04/](MiniC/TP04/).
+  * Documentation [here](docs/index.html).

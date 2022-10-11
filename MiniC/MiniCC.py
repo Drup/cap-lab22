@@ -216,7 +216,14 @@ liveness file not found for {}.".format(form))
                 s = "{}.{}.exitssa.dot".format(basename, code.fdata.get_name())
                 print("CFG after SSA:", s)
                 code.print_dot(s, view=True)
-            code.print_code(output, comment=comment)
+            from Lib.LinearCode import LinearCode  # type: ignore[import]
+            if isinstance(code, LinearCode):
+                code.print_code(output, comment=comment)
+            else:
+                from Lib.CFG import CFG  # type: ignore[import]
+                from TP04.LinearizeCFG import linearize  # type: ignore[import]
+                assert (isinstance(code, CFG))
+                code.print_code(output, linearize=linearize, comment=comment)
             if debug:
                 visitor3.printSymbolTable()
 
