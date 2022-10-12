@@ -74,6 +74,6 @@ _Academic first semester 2022-2023_
 
 - :hammer: Lab 4b: Wednesday 12/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
 
-  * Syntax directed code generation [TP04b](MiniC/TP04/tp4b.pdf).
+  * Control Flow Graph [TP04b](MiniC/TP04/tp4b.pdf).
   * Code in [MiniC/TP04/](MiniC/TP04/).
   * Documentation [here](docs/index.html).
