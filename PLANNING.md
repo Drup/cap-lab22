@@ -76,9 +76,17 @@ _Academic first semester 2022-2023_
 
   * Control Flow Graph [TP04b](MiniC/TP04/tp4b.pdf).
   * Code in [MiniC/TP04/](MiniC/TP04/).
-  * Documentation [here](docs/index.html).
+  * Documentation (updated) [here](docs/index.html).
 
 - :book: 7th Course session: Friday 14/10/2022, 10:15. Amphi B (Gabriel Radanne)
 
   * SSA [slides in english](course/cap_cours06a_ssa.pdf).
+
+# Week 7:
+
+- :hammer: Lab 5a: Wednesday 19/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+
+  * Control Flow Graph under SSA Form [TP05a](MiniC/TP05/tp5a.pdf).
+  * Code in [MiniC/TP05/](MiniC/TP05/).
+  * Documentation (updated) [here](docs/index.html).
 
