@@ -42,10 +42,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/Lib.RiscV.html">Base library - RISC-V instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Operands.html">Base library - Operands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Graphes.html">Base library - Graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Allocator.html">Temporary allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.Dominators.html">SSA form - Dominance frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/Lib.PhiNode.html">SSA form - Phi Nodes</a></li>
 </ul>
 
         </div>
@@ -204,10 +207,10 @@
 <span class="n">RA</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1">#:</span>
 <span class="n">SP</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="c1">#:</span>
-<span class="n">GP</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># Register not used for this course</span>
-<span class="c1">#:</span>
-<span class="n">TP</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># Register not used for this course</span>
+<span class="c1">#: Register not used for this course</span>
+<span class="n">GP</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1">#: Register not used for this course</span>
+<span class="n">TP</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="c1">#:</span>
 <span class="n">A</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">Register</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
 <span class="c1">#:</span>
@@ -220,8 +223,8 @@
 <span class="n">A0</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># function args/return Values: A0, A1</span>
 <span class="c1">#:</span>
 <span class="n">A1</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="c1">#:</span>
-<span class="n">FP</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Frame Pointer = Saved register 0</span>
+<span class="c1">#: Frame Pointer = Saved register 0</span>
+<span class="n">FP</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c1">#: General purpose registers, usable for the allocator</span>
 <span class="n">GP_REGS</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="o">+</span> <span class="n">T</span>  <span class="c1"># s0, s1, s2 and s3 are special</span>

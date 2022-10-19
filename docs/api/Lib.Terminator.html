@@ -19,6 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lib.Dominators module" href="Lib.Dominators.html" />
     <link rel="prev" title="Lib.CFG module" href="Lib.CFG.html" /> 
 </head>
 
@@ -44,10 +45,13 @@
 <li class="toctree-l1"><a class="reference internal" href="Lib.RiscV.html">Base library - RISC-V instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.Operands.html">Base library - Operands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Graphes.html">Base library - Graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.Allocator.html">Temporary allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Control Flow Graph - Terminators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.Dominators.html">SSA form - Dominance frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.PhiNode.html">SSA form - Phi Nodes</a></li>
 </ul>
 
         </div>
@@ -125,6 +129,11 @@ Should never be called on the base class.</p>
 <span class="sig-name descname"><span class="pre">substitute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="Lib.Operands.html#Lib.Operands.Operand" title="Lib.Operands.Operand"><span class="pre">Operand</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Terminator.html#Return.substitute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Terminator.Return.substitute" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="Lib.Terminator.Return.is_read_only">
+<span class="sig-name descname"><span class="pre">is_read_only</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Lib/Terminator.html#Return.is_read_only"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.Terminator.Return.is_read_only" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -200,6 +209,7 @@ to the potential label next_label.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Lib.CFG.html" class="btn btn-neutral float-left" title="Lib.CFG module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lib.Dominators.html" class="btn btn-neutral float-right" title="Lib.Dominators module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

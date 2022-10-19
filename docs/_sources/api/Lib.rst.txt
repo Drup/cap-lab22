@@ -9,10 +9,13 @@ Submodules
 
    Lib.Allocator
    Lib.CFG
+   Lib.Dominators
    Lib.Errors
    Lib.FunctionData
+   Lib.Graphes
    Lib.LinearCode
    Lib.Operands
+   Lib.PhiNode
    Lib.RiscV
    Lib.Statement
    Lib.Terminator

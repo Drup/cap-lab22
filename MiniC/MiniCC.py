@@ -5,8 +5,9 @@ Usage:
     python3 MiniCC.py --mode <mode> <filename>
     python3 MiniCC.py --help
 """
-import traceback
 from typing import cast
+from enum import Enum
+
 from MiniCLexer import MiniCLexer
 from MiniCParser import MiniCParser
 from TP03.MiniCTypingVisitor import MiniCTypingVisitor, MiniCTypeError
@@ -14,12 +15,11 @@ from TP03.MiniCInterpretVisitor import MiniCInterpretVisitor
 from Lib.Errors import (MiniCUnsupportedError, MiniCInternalError,
                         MiniCRuntimeError, AllocationError)
 
-from enum import Enum
-import argparse
-
 from antlr4 import FileStream, CommonTokenStream
 from antlr4.error.ErrorListener import ErrorListener
 
+from argparse import ArgumentParser
+from traceback import print_exc
 import os
 import sys
 
@@ -52,7 +52,7 @@ def valid_modes():
         return modes
 
     try:
-        import TP05.SSA  # type: ignore[import]
+        import TP05.EnterSSA  # type: ignore[import]
         modes.append('codegen-ssa')
     except ImportError:
         return modes
@@ -84,7 +84,7 @@ class CountErrorListener(ErrorListener):
 
 def main(inputname, reg_alloc, mode,
          typecheck=True, stdout=False, output_name=None, debug=False,
-         debug_graphs=False, ssa_graphs=False):
+         debug_graphs=False, ssa_graphs=False, dom_graphs=False):
     (basename, rest) = os.path.splitext(inputname)
     if mode.is_codegen():
         if stdout:
@@ -144,22 +144,19 @@ def main(inputname, reg_alloc, mode,
                 code = function
             else:
                 from TP04.BuildCFG import build_cfg  # type: ignore[import]
-                from Lib.CFG import CFG  # type: ignore[import]
                 code = build_cfg(function)
-                assert (isinstance(code, CFG))
             if debug_graphs:
                 s = "{}.{}.dot".format(basename, code.fdata.get_name())
                 print("CFG:", s)
                 code.print_dot(s, view=True)
             if mode.value >= Mode.SSA.value:
-                from TP05.SSA import enter_ssa  # type: ignore[import]
+                from TP05.EnterSSA import enter_ssa  # type: ignore[import]
                 from Lib.CFG import CFG  # type: ignore[import]
-
-                DF = enter_ssa(cast(CFG, code), basename, debug, ssa_graphs)
+                enter_ssa(cast(CFG, code), dom_graphs, basename)
                 if ssa_graphs:
-                    s = "{}.{}.ssa.dot".format(basename, code.fdata.get_name())
+                    s = "{}.{}.enterssa.dot".format(basename, code.fdata.get_name())
                     print("SSA:", s)
-                    code.print_dot(s, DF, True)
+                    code.print_dot(s, view=True)
                 if mode == Mode.OPTIM:
                     from TPoptim.OptimSSA import OptimSSA  # type: ignore[import]
                     OptimSSA(cast(CFG, code), debug=debug)
@@ -207,8 +204,8 @@ liveness file not found for {}.".format(form))
                 allocator.prepare()
             if mode.value >= Mode.SSA.value:
                 from Lib.CFG import CFG  # type: ignore[import]
-                from TP05.SSA import exit_ssa  # type: ignore[import]
-                exit_ssa(cast(CFG, code))
+                from TP05.ExitSSA import exit_ssa  # type: ignore[import]
+                exit_ssa(cast(CFG, code), reg_alloc == 'smart')
                 comment += " with SSA"
             if allocator:
                 allocator.rewriteCode(code)
@@ -233,7 +230,7 @@ if __name__ == '__main__':
 
     modes = valid_modes()
 
-    parser = argparse.ArgumentParser(description='Generate code for .c file')
+    parser = ArgumentParser(description='CAP/MIF08 MiniCC compiler')
 
     parser.add_argument('filename', type=str,
                         help='Source file.')
@@ -265,7 +262,10 @@ if __name__ == '__main__':
     if "codegen-ssa" in modes:
         parser.add_argument('--ssa-graphs', action='store_true',
                             default=False,
-                            help='Display SSA graphs (DT, DF).')
+                            help='Display the CFG at SSA entry and exit.')
+        parser.add_argument('--dom-graphs', action='store_true',
+                            default=False,
+                            help='Display dominance-related graphs (DT, DF).')
 
     args = parser.parse_args()
     reg_alloc = args.reg_alloc if "codegen-linear" in modes else None
@@ -273,6 +273,7 @@ if __name__ == '__main__':
     outfile = args.output if "codegen-linear" in modes else None
     graphs = args.graphs if "codegen-cfg" in modes else False
     ssa_graphs = args.ssa_graphs if "codegen-ssa" in modes else False
+    dom_graphs = args.dom_graphs if "codegen-ssa" in modes else False
 
     if reg_alloc is None and "codegen" in args.mode:
         print("error: the following arguments is required: --reg-alloc")
@@ -308,10 +309,10 @@ if __name__ == '__main__':
         main(args.filename, reg_alloc, mode,
              typecheck,
              to_stdout, outfile, args.debug,
-             graphs, ssa_graphs)
+             graphs, ssa_graphs, dom_graphs)
     except MiniCUnsupportedError as e:
         print(e)
         exit(5)
     except (MiniCInternalError, AllocationError):
-        traceback.print_exc()
+        print_exc()
         exit(4)

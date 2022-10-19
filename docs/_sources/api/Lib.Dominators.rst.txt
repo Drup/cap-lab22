@@ -1,0 +1,7 @@
+Lib.Dominators module
+=====================
+
+.. automodule:: Lib.Dominators
+   :members:
+   :undoc-members:
+   :show-inheritance:

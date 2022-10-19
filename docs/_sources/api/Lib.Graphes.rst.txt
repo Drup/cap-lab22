@@ -1,0 +1,7 @@
+Lib.Graphes module
+==================
+
+.. automodule:: Lib.Graphes
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -42,10 +42,13 @@
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.RiscV.html">Base library - RISC-V instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Operands.html">Base library - Operands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.Graphes.html">Base library - Graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Allocator.html">Temporary allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.Dominators.html">SSA form - Dominance frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.PhiNode.html">SSA form - Phi Nodes</a></li>
 </ul>
 
         </div>
@@ -79,6 +82,7 @@
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
@@ -92,6 +96,7 @@
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  | <a href="#X"><strong>X</strong></a>
  | <a href="#Z"><strong>Z</strong></a>
  
@@ -114,7 +119,13 @@
       <li><a href="api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.add_comment">add_comment() (Lib.LinearCode.LinearCode method)</a>
 </li>
       <li><a href="api/Lib.CFG.html#Lib.CFG.CFG.add_edge">add_edge() (Lib.CFG.CFG method)</a>
+
+      <ul>
+        <li><a href="api/Lib.Graphes.html#Lib.Graphes.DiGraph.add_edge">(Lib.Graphes.DiGraph method)</a>
 </li>
+        <li><a href="api/Lib.Graphes.html#Lib.Graphes.Graph.add_edge">(Lib.Graphes.Graph method)</a>
+</li>
+      </ul></li>
       <li><a href="api/Lib.CFG.html#Lib.CFG.Block.add_instruction">add_instruction() (Lib.CFG.Block method)</a>
 
       <ul>
@@ -128,6 +139,8 @@
       <li><a href="api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.add_label">add_label() (Lib.LinearCode.LinearCode method)</a>
 </li>
       <li><a href="api/Lib.Operands.html#Lib.Operands.TemporaryPool.add_tmp">add_tmp() (Lib.Operands.TemporaryPool method)</a>
+</li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GeneralGraph.add_vertex">add_vertex() (Lib.Graphes.GeneralGraph method)</a>
 </li>
       <li><a href="api/Lib.Errors.html#Lib.Errors.AllocationError">AllocationError</a>
 </li>
@@ -153,10 +166,12 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/Lib.CFG.html#Lib.CFG.Block">Block (class in Lib.CFG)</a>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GeneralGraph.bfs_traversal">bfs_traversal() (Lib.Graphes.GeneralGraph method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.CFG.html#Lib.CFG.Block">Block (class in Lib.CFG)</a>
+</li>
       <li><a href="api/Lib.Terminator.html#Lib.Terminator.BranchingTerminator">BranchingTerminator (class in Lib.Terminator)</a>
 </li>
   </ul></td>
@@ -169,9 +184,21 @@
 </li>
       <li><a href="api/Lib.CFG.html#Lib.CFG.CFG">CFG (class in Lib.CFG)</a>
 </li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.Graph.color">color() (Lib.Graphes.Graph method)</a>
+</li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.Graph.color_with_k_colors">color_with_k_colors() (Lib.Graphes.Graph method)</a>
+</li>
       <li><a href="api/Lib.Statement.html#Lib.Statement.Comment">Comment (class in Lib.Statement)</a>
 </li>
       <li><a href="api/Lib.Statement.html#Lib.Statement.Comment.comment">comment (Lib.Statement.Comment attribute)</a>
+</li>
+      <li><a href="api/Lib.Dominators.html#Lib.Dominators.computeDF">computeDF() (in module Lib.Dominators)</a>
+</li>
+      <li><a href="api/Lib.Dominators.html#Lib.Dominators.computeDom">computeDom() (in module Lib.Dominators)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.Dominators.html#Lib.Dominators.computeDT">computeDT() (in module Lib.Dominators)</a>
 </li>
       <li><a href="api/Lib.Statement.html#Lib.Statement.ConditionalJump.cond">cond (Lib.Statement.ConditionalJump attribute)</a>
 
@@ -179,13 +206,13 @@
         <li><a href="api/Lib.Terminator.html#Lib.Terminator.BranchingTerminator.cond">(Lib.Terminator.BranchingTerminator attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/Lib.Operands.html#Lib.Operands.Condition">Condition (class in Lib.Operands)</a>
 </li>
       <li><a href="api/Lib.RiscV.html#Lib.RiscV.conditional_jump">conditional_jump() (in module Lib.RiscV)</a>
 </li>
       <li><a href="api/Lib.Statement.html#Lib.Statement.ConditionalJump">ConditionalJump (class in Lib.Statement)</a>
+</li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GeneralGraph.connected_components">connected_components() (Lib.Graphes.GeneralGraph method)</a>
 </li>
       <li><a href="api/Lib.Operands.html#Lib.Operands.Renamer.copy">copy() (Lib.Operands.Renamer method)</a>
 </li>
@@ -200,15 +227,47 @@
       <li><a href="api/Lib.Operands.html#Lib.Operands.Renamer.defined">defined() (Lib.Operands.Renamer method)</a>
 
       <ul>
+        <li><a href="api/Lib.PhiNode.html#Lib.PhiNode.PhiNode.defined">(Lib.PhiNode.PhiNode method)</a>
+</li>
         <li><a href="api/Lib.Statement.html#Lib.Statement.Instruction.defined">(Lib.Statement.Instruction method)</a>
 </li>
         <li><a href="api/Lib.Statement.html#Lib.Statement.Statement.defined">(Lib.Statement.Statement method)</a>
 </li>
       </ul></li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.DiGraph.delete_edge">delete_edge() (Lib.Graphes.DiGraph method)</a>
+
+      <ul>
+        <li><a href="api/Lib.Graphes.html#Lib.Graphes.Graph.delete_edge">(Lib.Graphes.Graph method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.DiGraph.delete_vertex">delete_vertex() (Lib.Graphes.DiGraph method)</a>
+
+      <ul>
+        <li><a href="api/Lib.Graphes.html#Lib.Graphes.Graph.delete_vertex">(Lib.Graphes.Graph method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GeneralGraph.dfs_traversal">dfs_traversal() (Lib.Graphes.GeneralGraph method)</a>
+</li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.DiGraph">DiGraph (class in Lib.Graphes)</a>
+</li>
       <li><a href="api/Lib.RiscV.html#Lib.RiscV.div">div() (in module Lib.RiscV)</a>
 </li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.DiGraph.edges">edges() (Lib.Graphes.DiGraph method)</a>
+
+      <ul>
+        <li><a href="api/Lib.Graphes.html#Lib.Graphes.GeneralGraph.edges">(Lib.Graphes.GeneralGraph method)</a>
+</li>
+        <li><a href="api/Lib.Graphes.html#Lib.Graphes.Graph.edges">(Lib.Graphes.Graph method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -249,6 +308,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/Lib.CFG.html#Lib.CFG.CFG.gather_defs">gather_defs() (Lib.CFG.CFG method)</a>
 </li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GeneralGraph">GeneralGraph (class in Lib.Graphes)</a>
+</li>
       <li><a href="api/Lib.CFG.html#Lib.CFG.Block.get_all_statements">get_all_statements() (Lib.CFG.Block method)</a>
 </li>
       <li><a href="api/Lib.Operands.html#Lib.Operands.TemporaryPool.get_all_temps">get_all_temps() (Lib.Operands.TemporaryPool method)</a>
@@ -269,10 +330,10 @@
 </li>
       <li><a href="api/Lib.CFG.html#Lib.CFG.CFG.get_entries">get_entries() (Lib.CFG.CFG method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/Lib.CFG.html#Lib.CFG.Block.get_in">get_in() (Lib.CFG.Block method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.get_instructions">get_instructions() (Lib.LinearCode.LinearCode method)</a>
 </li>
       <li><a href="api/Lib.CFG.html#Lib.CFG.Block.get_label">get_label() (Lib.CFG.Block method)</a>
@@ -295,6 +356,12 @@
 </li>
       <li><a href="api/Lib.Operands.html#Lib.Operands.GP_REGS">GP_REGS (in module Lib.Operands)</a>
 </li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.Graph">Graph (class in Lib.Graphes)</a>
+</li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GeneralGraph.graph_dict">graph_dict (Lib.Graphes.GeneralGraph attribute)</a>
+</li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GraphError">GraphError</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -311,12 +378,18 @@
       </ul></li>
       <li><a href="api/Lib.Statement.html#Lib.Statement.Instru3A">Instru3A (class in Lib.Statement)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/Lib.Statement.html#Lib.Statement.Instruction">Instruction (class in Lib.Statement)</a>
 </li>
-      <li><a href="api/Lib.Statement.html#Lib.Statement.Instruction.is_read_only">is_read_only() (Lib.Statement.Instruction method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GeneralGraph.is_reachable_from">is_reachable_from() (Lib.Graphes.GeneralGraph method)</a>
 </li>
+      <li><a href="api/Lib.Statement.html#Lib.Statement.Instruction.is_read_only">is_read_only() (Lib.Statement.Instruction method)</a>
+
+      <ul>
+        <li><a href="api/Lib.Terminator.html#Lib.Terminator.Return.is_read_only">(Lib.Terminator.Return method)</a>
+</li>
+      </ul></li>
       <li><a href="api/Lib.CFG.html#Lib.CFG.Block.iter_statements">iter_statements() (Lib.CFG.Block method)</a>
 
       <ul>
@@ -383,6 +456,13 @@
 </li>
       </ul></li>
       <li>
+    Lib.Dominators
+
+      <ul>
+        <li><a href="api/Lib.Dominators.html#module-Lib.Dominators">module</a>
+</li>
+      </ul></li>
+      <li>
     Lib.Errors
 
       <ul>
@@ -399,6 +479,13 @@
 </li>
       </ul></li>
       <li>
+    Lib.Graphes
+
+      <ul>
+        <li><a href="api/Lib.Graphes.html#module-Lib.Graphes">module</a>
+</li>
+      </ul></li>
+      <li>
     Lib.LinearCode
 
       <ul>
@@ -410,6 +497,13 @@
 
       <ul>
         <li><a href="api/Lib.Operands.html#module-Lib.Operands">module</a>
+</li>
+      </ul></li>
+      <li>
+    Lib.PhiNode
+
+      <ul>
+        <li><a href="api/Lib.PhiNode.html#module-Lib.PhiNode">module</a>
 </li>
       </ul></li>
       <li>
@@ -445,6 +539,8 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GraphError.message">message (Lib.Graphes.GraphError attribute)</a>
+</li>
       <li><a href="api/Lib.Errors.html#Lib.Errors.MiniCInternalError">MiniCInternalError</a>
 </li>
       <li><a href="api/Lib.Errors.html#Lib.Errors.MiniCRuntimeError">MiniCRuntimeError</a>
@@ -463,13 +559,19 @@
 </li>
         <li><a href="api/Lib.CFG.html#module-Lib.CFG">Lib.CFG</a>
 </li>
+        <li><a href="api/Lib.Dominators.html#module-Lib.Dominators">Lib.Dominators</a>
+</li>
         <li><a href="api/Lib.Errors.html#module-Lib.Errors">Lib.Errors</a>
 </li>
         <li><a href="api/Lib.FunctionData.html#module-Lib.FunctionData">Lib.FunctionData</a>
 </li>
+        <li><a href="api/Lib.Graphes.html#module-Lib.Graphes">Lib.Graphes</a>
+</li>
         <li><a href="api/Lib.LinearCode.html#module-Lib.LinearCode">Lib.LinearCode</a>
 </li>
         <li><a href="api/Lib.Operands.html#module-Lib.Operands">Lib.Operands</a>
+</li>
+        <li><a href="api/Lib.PhiNode.html#module-Lib.PhiNode">Lib.PhiNode</a>
 </li>
         <li><a href="api/Lib.RiscV.html#module-Lib.RiscV">Lib.RiscV</a>
 </li>
@@ -492,11 +594,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/Lib.Allocator.html#Lib.Allocator.NaiveAllocator">NaiveAllocator (class in Lib.Allocator)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/Lib.Statement.html#Lib.Statement.Label.name">name (Lib.Statement.Label attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/Lib.Operands.html#Lib.Operands.Condition.negate">negate() (Lib.Operands.Condition method)</a>
+</li>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.DiGraph.neighbourhoods">neighbourhoods() (Lib.Graphes.DiGraph method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -530,6 +634,8 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.PhiNode.html#Lib.PhiNode.PhiNode">PhiNode (class in Lib.PhiNode)</a>
+</li>
       <li><a href="api/Lib.Allocator.html#Lib.Allocator.Allocator.prepare">prepare() (Lib.Allocator.Allocator method)</a>
 
       <ul>
@@ -545,14 +651,22 @@
       <li><a href="api/Lib.CFG.html#Lib.CFG.CFG.print_dot">print_dot() (Lib.CFG.CFG method)</a>
 
       <ul>
+        <li><a href="api/Lib.Graphes.html#Lib.Graphes.DiGraph.print_dot">(Lib.Graphes.DiGraph method)</a>
+</li>
+        <li><a href="api/Lib.Graphes.html#Lib.Graphes.Graph.print_dot">(Lib.Graphes.Graph method)</a>
+</li>
         <li><a href="api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.print_dot">(Lib.LinearCode.LinearCode method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/Lib.Statement.html#Lib.Statement.Comment.printIns">printIns() (Lib.Statement.Comment method)</a>
+      <li><a href="api/Lib.Dominators.html#Lib.Dominators.printDT">printDT() (in module Lib.Dominators)</a>
+</li>
+      <li><a href="api/Lib.PhiNode.html#Lib.PhiNode.PhiNode.printIns">printIns() (Lib.PhiNode.PhiNode method)</a>
 
       <ul>
+        <li><a href="api/Lib.Statement.html#Lib.Statement.Comment.printIns">(Lib.Statement.Comment method)</a>
+</li>
         <li><a href="api/Lib.Statement.html#Lib.Statement.Instruction.printIns">(Lib.Statement.Instruction method)</a>
 </li>
         <li><a href="api/Lib.Statement.html#Lib.Statement.Label.printIns">(Lib.Statement.Label method)</a>
@@ -578,9 +692,11 @@
 </li>
       <li><a href="api/Lib.CFG.html#Lib.CFG.CFG.remove_edge">remove_edge() (Lib.CFG.CFG method)</a>
 </li>
-      <li><a href="api/Lib.Statement.html#Lib.Statement.AbsoluteJump.rename">rename() (Lib.Statement.AbsoluteJump method)</a>
+      <li><a href="api/Lib.PhiNode.html#Lib.PhiNode.PhiNode.rename">rename() (Lib.PhiNode.PhiNode method)</a>
 
       <ul>
+        <li><a href="api/Lib.Statement.html#Lib.Statement.AbsoluteJump.rename">(Lib.Statement.AbsoluteJump method)</a>
+</li>
         <li><a href="api/Lib.Statement.html#Lib.Statement.ConditionalJump.rename">(Lib.Statement.ConditionalJump method)</a>
 </li>
         <li><a href="api/Lib.Statement.html#Lib.Statement.Instru3A.rename">(Lib.Statement.Instru3A method)</a>
@@ -594,6 +710,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.PhiNode.html#Lib.PhiNode.PhiNode.rename_from">rename_from() (Lib.PhiNode.PhiNode method)</a>
+</li>
       <li><a href="api/Lib.Operands.html#Lib.Operands.Renamer">Renamer (class in Lib.Operands)</a>
 </li>
       <li><a href="api/Lib.Allocator.html#Lib.Allocator.Allocator.replace">replace() (Lib.Allocator.Allocator method)</a>
@@ -626,10 +744,12 @@
 </li>
       <li><a href="api/Lib.Operands.html#Lib.Operands.SP">SP (in module Lib.Operands)</a>
 </li>
-      <li><a href="api/Lib.Statement.html#Lib.Statement.Statement">Statement (class in Lib.Statement)</a>
+      <li><a href="api/Lib.PhiNode.html#Lib.PhiNode.PhiNode.srcs">srcs (Lib.PhiNode.PhiNode attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.Statement.html#Lib.Statement.Statement">Statement (class in Lib.Statement)</a>
+</li>
       <li><a href="api/Lib.RiscV.html#Lib.RiscV.sub">sub() (in module Lib.RiscV)</a>
 </li>
       <li><a href="api/Lib.Statement.html#Lib.Statement.AbsoluteJump.substitute">substitute() (Lib.Statement.AbsoluteJump method)</a>
@@ -678,12 +798,26 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/Lib.Statement.html#Lib.Statement.Instruction.used">used() (Lib.Statement.Instruction method)</a>
+      <li><a href="api/Lib.PhiNode.html#Lib.PhiNode.PhiNode.used">used() (Lib.PhiNode.PhiNode method)</a>
 
       <ul>
+        <li><a href="api/Lib.Statement.html#Lib.Statement.Instruction.used">(Lib.Statement.Instruction method)</a>
+</li>
         <li><a href="api/Lib.Statement.html#Lib.Statement.Statement.used">(Lib.Statement.Statement method)</a>
 </li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.PhiNode.html#Lib.PhiNode.PhiNode.var">var (Lib.PhiNode.PhiNode attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/Lib.Graphes.html#Lib.Graphes.GeneralGraph.vertices">vertices() (Lib.Graphes.GeneralGraph method)</a>
+</li>
   </ul></td>
 </tr></table>
 

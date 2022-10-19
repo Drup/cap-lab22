@@ -1,0 +1,7 @@
+Lib.PhiNode module
+==================
+
+.. automodule:: Lib.PhiNode
+   :members:
+   :undoc-members:
+   :show-inheritance:

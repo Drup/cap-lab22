@@ -44,10 +44,13 @@
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.RiscV.html">Base library - RISC-V instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Operands.html">Base library - Operands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.Graphes.html">Base library - Graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Allocator.html">Temporary allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.Dominators.html">SSA form - Dominance frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.PhiNode.html">SSA form - Phi Nodes</a></li>
 </ul>
 
         </div>
@@ -84,10 +87,13 @@
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.RiscV.html">Base library - RISC-V instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Operands.html">Base library - Operands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.FunctionData.html">Base library - Function data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.Graphes.html">Base library - Graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.LinearCode.html">Linear intermediate representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Allocator.html">Temporary allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.CFG.html">Control Flow Graph - CFG and Basic blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/Lib.Terminator.html">Control Flow Graph - Terminators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.Dominators.html">SSA form - Dominance frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/Lib.PhiNode.html">SSA form - Phi Nodes</a></li>
 </ul>
 </div>
 <p>These pages document the various Python sources in the Lib/
@@ -101,6 +107,8 @@ Instead, to easily create such statements for standard RISC-V assembly instructi
 and pseudo-instructions, we give you the <a class="reference internal" href="api/Lib.RiscV.html"><span class="doc">Lib.RiscV module</span></a>.</p>
 <p>RISC-V instructions take arguments of various kinds,
 as defined in the <a class="reference internal" href="api/Lib.Operands.html"><span class="doc">Lib.Operands module</span></a>.</p>
+<p>At some point, we will need some basic functions about oriented and non oriented graphs,
+those are present in <a class="reference internal" href="api/Lib.Graphes.html"><span class="doc">Lib.Graphes module</span></a>.</p>
 </section>
 <section id="linear-intermediate-representation">
 <h2>Linear Intermediate representation<a class="headerlink" href="#linear-intermediate-representation" title="Permalink to this heading"></a></h2>
@@ -116,6 +124,13 @@ you should understand the naive allocator in the <a class="reference internal" h
 <h2>Control Flow Graph Intermediate representation<a class="headerlink" href="#control-flow-graph-intermediate-representation" title="Permalink to this heading"></a></h2>
 <p>The classes for the CFG and its basic blocks are in the <a class="reference internal" href="api/Lib.CFG.html"><span class="doc">Lib.CFG module</span></a>.
 Each block ends with a terminator, as documented in the <a class="reference internal" href="api/Lib.Terminator.html"><span class="doc">Lib.Terminator module</span></a>.</p>
+</section>
+<section id="ssa-form">
+<h2>SSA form<a class="headerlink" href="#ssa-form" title="Permalink to this heading"></a></h2>
+<p>The translation of the CFG into SSA form makes use of dominance frontiers.
+Functions to work with dominance are defined in the <a class="reference internal" href="api/Lib.Dominators.html"><span class="doc">Lib.Dominators module</span></a>.</p>
+<p>Phi nodes, a special kind of statement that appears in CFGs in SSA form,
+are defined in the <a class="reference internal" href="api/Lib.PhiNode.html"><span class="doc">Lib.PhiNode module</span></a>.</p>
 </section>
 </section>
 <section id="indices-and-tables">
