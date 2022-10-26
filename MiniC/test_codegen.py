@@ -226,7 +226,7 @@ class TestCodeGen(TestExpectPragmas):
         actual = self.all_in_mem(filename, expect)
         self.assert_equal(actual, expect)
 
-    @pytest.mark.parametrize('filename', ALLOC_FILES)
+    @pytest.mark.parametrize('filename', ALL_IN_MEM_FILES)
     def test_smart_alloc(self, filename):
         """Generate code with smart allocation."""
         expect = self.get_expect(filename)
