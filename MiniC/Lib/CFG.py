@@ -84,6 +84,14 @@ class Block:
                 cast(List[Statement], self._instructions) +
                 [self.get_terminator()])
 
+    def get_body_and_terminator(self) -> List[Statement]:
+        """
+        Return all statements of the block, except phi-nodes
+        (and the label of the block).
+        """
+        return (cast(List[Statement], self._instructions) +
+                [self.get_terminator()])
+
     def get_label(self) -> Label:
         """Return the label of the block."""
         return self._label
@@ -259,7 +267,6 @@ class CFG:
         # nodes
         for name, blk in self._blocks.items():
             if DF is not None:
-                print(str(name), blk._label)
                 df_str = "{}" if blk not in DF or not len(DF[blk]) else str(DF[blk])
                 df_lab = blk.to_dot() + "\n\nDominance frontier:\n" + df_str
             else:

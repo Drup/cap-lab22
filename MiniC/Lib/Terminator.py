@@ -52,6 +52,9 @@ class Return(Statement):
                 .format(self))
         return self
 
+    def is_read_only(self):
+        return True
+
 
 @dataclass(init=False)
 class BranchingTerminator(Instruction):
@@ -126,7 +129,7 @@ def jump2terminator(j: ConditionalJump | AbsoluteJump | None,
             return BranchingTerminator(j.cond, j.op1, j.op2, j.label, label_else)
         case AbsoluteJump():
             return AbsoluteJump(label=j.label)
-        case None:
+        case _:
             if next_label:
                 return AbsoluteJump(next_label)
             else:

@@ -131,10 +131,8 @@
 
 <div class="viewcode-block" id="LinearCode.iter_statements"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.iter_statements">[docs]</a>    <span class="k">def</span> <span class="nf">iter_statements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Iterate over instructions.</span>
-<span class="sd">        For each real instruction (not label or comment), call f,</span>
-<span class="sd">        which must return either None or a list of instruction. If it</span>
-<span class="sd">        returns None, nothing happens. If it returns a list, then the</span>
-<span class="sd">        instruction is replaced by this list.</span>
+<span class="sd">        For each real instruction i (not label or comment), replace it</span>
+<span class="sd">        with the list of instructions given by f(i).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span> <span class="o">=</span> <span class="n">_iter_statements</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_listIns</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
 
@@ -153,7 +151,7 @@
 
 <div class="viewcode-block" id="LinearCode.add_instruction_PRINTLN_INT"><a class="viewcode-back" href="../../api/Lib.LinearCode.html#Lib.LinearCode.LinearCode.add_instruction_PRINTLN_INT">[docs]</a>    <span class="k">def</span> <span class="nf">add_instruction_PRINTLN_INT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reg</span><span class="p">:</span> <span class="n">DataLocation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Print integer value, with newline. (see Expand)&quot;&quot;&quot;</span>
-        <span class="c1"># a print instruction generates the temp it prints.</span>
+        <span class="c1"># A print instruction generates the temp it prints.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_instruction</span><span class="p">(</span><span class="n">mv</span><span class="p">(</span><span class="n">A0</span><span class="p">,</span> <span class="n">reg</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_instruction</span><span class="p">(</span><span class="n">call</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="s1">&#39;println_int&#39;</span><span class="p">)))</span></div>
 

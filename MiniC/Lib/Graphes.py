@@ -156,7 +156,9 @@ class Graph(GeneralGraph):
         """Print the graph."""
         color_names = ['red', 'blue', 'green', 'yellow', 'cyan', 'magenta'] + \
             [f"grey{i}" for i in range(0, 100, 10)]
-        color_shapes = ['ellipse', 'polygon', 'box', 'circle', 'egg', 'pentagon', 'hexagon']
+        color_shapes = ['ellipse', 'box', 'diamond', 'trapezium', 'egg',
+                        'parallelogram', 'house', 'triangle', 'pentagon', 'hexagon',
+                        'septagon', 'octagon']
         dot = Digraph(comment='Conflict Graph')
         for k in self.graph_dict:
             shape = None
@@ -254,6 +256,10 @@ class Graph(GeneralGraph):
 
 class DiGraph(GeneralGraph):
     """Class for directed graphs."""
+
+    def pred(self, v: Any) -> Set:
+        """Return all predecessors of the vertex `v` in the graph."""
+        return {src for src, dests in self.graph_dict.items() if v in dests}
 
     def neighbourhoods(self) -> List[Tuple[Any, Set]]:
         """Return all neighbourhoods in the graph."""

@@ -110,10 +110,8 @@ the RiscV program to a file.</p>
 <dt class="sig sig-object py" id="Lib.LinearCode.LinearCode.iter_statements">
 <span class="sig-name descname"><span class="pre">iter_statements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/Lib/LinearCode.html#LinearCode.iter_statements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Lib.LinearCode.LinearCode.iter_statements" title="Permalink to this definition"></a></dt>
 <dd><p>Iterate over instructions.
-For each real instruction (not label or comment), call f,
-which must return either None or a list of instruction. If it
-returns None, nothing happens. If it returns a list, then the
-instruction is replaced by this list.</p>
+For each real instruction i (not label or comment), replace it
+with the list of instructions given by f(i).</p>
 </dd></dl>
 
 <dl class="py method">

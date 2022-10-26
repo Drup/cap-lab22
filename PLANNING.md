@@ -90,3 +90,10 @@ _Academic first semester 2022-2023_
   * Code in [MiniC/TP05/](MiniC/TP05/).
   * Documentation (updated) [here](docs/index.html).
 
+# Week 8:
+
+- :hammer: Lab 5b (1/2): Wednesday 26/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+
+    * Smart Register Allocation [TP05b](MiniC/TP05/tp5b.pdf)
+    * Code in [MiniC/TP05/](MiniC/TP05/).
+

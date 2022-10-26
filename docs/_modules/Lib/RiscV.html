@@ -146,7 +146,10 @@
 
 
 <div class="viewcode-block" id="xor"><a class="viewcode-back" href="../../api/Lib.RiscV.html#Lib.RiscV.xor">[docs]</a><span class="k">def</span> <span class="nf">xor</span><span class="p">(</span><span class="n">dr</span><span class="p">:</span> <span class="n">Operand</span><span class="p">,</span> <span class="n">sr1</span><span class="p">:</span> <span class="n">Operand</span><span class="p">,</span> <span class="n">sr2orimm7</span><span class="p">:</span> <span class="n">Operand</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instru3A</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-    <span class="k">return</span> <span class="n">Instru3A</span><span class="p">(</span><span class="s2">&quot;xor&quot;</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">sr1</span><span class="p">,</span> <span class="n">sr2orimm7</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sr2orimm7</span><span class="p">,</span> <span class="n">Immediate</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Instru3A</span><span class="p">(</span><span class="s2">&quot;xori&quot;</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">sr1</span><span class="p">,</span> <span class="n">sr2orimm7</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Instru3A</span><span class="p">(</span><span class="s2">&quot;xor&quot;</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">sr1</span><span class="p">,</span> <span class="n">sr2orimm7</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="li"><a class="viewcode-back" href="../../api/Lib.RiscV.html#Lib.RiscV.li">[docs]</a><span class="k">def</span> <span class="nf">li</span><span class="p">(</span><span class="n">dr</span><span class="p">:</span> <span class="n">Operand</span><span class="p">,</span> <span class="n">imm7</span><span class="p">:</span> <span class="n">Immediate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instru3A</span><span class="p">:</span>

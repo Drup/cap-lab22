@@ -162,6 +162,14 @@
                 <span class="n">cast</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Statement</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instructions</span><span class="p">)</span> <span class="o">+</span>
                 <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_terminator</span><span class="p">()])</span></div>
 
+<div class="viewcode-block" id="Block.get_body_and_terminator"><a class="viewcode-back" href="../../api/Lib.CFG.html#Lib.CFG.Block.get_body_and_terminator">[docs]</a>    <span class="k">def</span> <span class="nf">get_body_and_terminator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Statement</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return all statements of the block, except phi-nodes</span>
+<span class="sd">        (and the label of the block).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Statement</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instructions</span><span class="p">)</span> <span class="o">+</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_terminator</span><span class="p">()])</span></div>
+
 <div class="viewcode-block" id="Block.get_label"><a class="viewcode-back" href="../../api/Lib.CFG.html#Lib.CFG.Block.get_label">[docs]</a>    <span class="k">def</span> <span class="nf">get_label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Label</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the label of the block.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span></div>
