@@ -90,10 +90,18 @@ _Academic first semester 2022-2023_
   * Code in [MiniC/TP05/](MiniC/TP05/).
   * Documentation (updated) [here](docs/index.html).
 
+- :book: 8th Course session: Friday 21/10/2022, 10:15. Amphi B (Gabriel Radanne)
+
+  * Register Allocation [slides in english](course/cap_cours07_regalloc.pdf).
+
 # Week 8:
 
 - :hammer: Lab 5b (1/2): Wednesday 26/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
 
     * Smart Register Allocation [TP05b](MiniC/TP05/tp5b.pdf)
     * Code in [MiniC/TP05/](MiniC/TP05/).
+
+- :book: 9th Course session: Friday 28/10/2022, 10:15. Amphi B (Gabriel Radanne)
+
+  * SSA Optims [slides in english](course/cap_cours06b_ssa_optim.pdf).
 
