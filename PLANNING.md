@@ -107,8 +107,8 @@ _Academic first semester 2022-2023_
 
   # Week 8:
 
-- :book: 9th Course session: *Wednesday 16/11/2022, 10:15. Amphi L (Ludovic Henrio)*
+- :book: 9th Course session: **Wednesday 16/11/2022, 10:15. Amphi L (Ludovic Henrio)**
   * Function code generation and typing (course/CAP-fun_codegen_typing.pdf)
 
-- :book: 9th Course session:  Friday 18/11/2022, 10:15. Amphi B (Ludovic Henrio)*
+- :book: 10th Course session:  Friday 18/11/2022, 10:15. Amphi B (Ludovic Henrio)*
   * Function semantics
