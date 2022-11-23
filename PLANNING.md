@@ -105,10 +105,18 @@ _Academic first semester 2022-2023_
 
   * SSA Optims [slides in english](course/cap_cours06b_ssa_optim.pdf).
 
-  # Week 8:
+# Week 9:
+
+- :hammer: Lab 5b (2/2): Wednesday 09/11/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+
+# Week 10:
 
 - :book: 9th Course session: **Wednesday 16/11/2022, 10:15. Amphi L (Ludovic Henrio)**
   * Function code generation and typing [slides](course/CAP-fun_codegen_typing.pdf)
 
 - :book: 10th Course session:  Friday 18/11/2022, 10:15. Amphi B (Ludovic Henrio)
   * Function semantics [slides](course/2022-cap_cours10_funsem.pdf)
+
+# Week 11:
+
+- :notebook: TD: Wednesday 23/11/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
