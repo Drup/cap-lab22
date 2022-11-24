@@ -120,3 +120,6 @@ _Academic first semester 2022-2023_
 # Week 11:
 
 - :notebook: TD: Wednesday 23/11/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+
+- :book: 11th Course session:  Friday 24/11/2022, 10:15. Amphi B (Ludovic Henrio)
+  * Parallelism [slides](course/cap_cours11_parallelism.pdf)
