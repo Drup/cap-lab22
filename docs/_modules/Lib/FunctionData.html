@@ -199,10 +199,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># compute size for the local stack - do not forget to align by 16</span>
     <span class="n">fo</span> <span class="o">=</span> <span class="n">fdata</span><span class="o">.</span><span class="n">get_offset</span><span class="p">()</span>  <span class="c1"># allocate enough memory for stack</span>
-    <span class="c1"># BEGIN CUT</span>
     <span class="c1"># Room for S_i (except S_0 which is fp) and T_i backup</span>
     <span class="n">fo</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
-    <span class="c1"># END CUT</span>
     <span class="n">cardoffset</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="p">(</span><span class="n">fo</span> <span class="o">+</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">fo</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="mi">16</span>
     <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
         <span class="s2">&quot;##Automatically generated RISCV code, MIF08 &amp; CAP</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>

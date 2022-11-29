@@ -14,14 +14,6 @@ ifdef MODE
 MINICC_OPTS+=--mode $(MODE)
 endif
 
-ifdef TYPECHECK_ONLY
-MINICC_OPTS+=--disable-codegen
-endif
-
-ifdef PARSE_ONLY
-MINICC_OPTS+=--disable-typecheck --disable-codegen
-endif
-
 export MINICC_OPTS
 
 PYTEST_BASE_OPTS=-vv -rs --failed-first --cov="$(PWD)" --cov-report=term --cov-report=html
@@ -47,6 +39,12 @@ test: test-interpret test-codegen
 
 test-pyright: antlr
 	pyright .
+
+test-parse: test-pyright antlr
+	MINICC_OPTS="$(MINICC_OPTS) --mode=parse" python3 -m pytest $(PYTEST_BASE_OPTS) $(PYTEST_OPTS) ./test_codegen.py -k 'naive'
+
+test-typecheck: test-pyright antlr
+	MINICC_OPTS="$(MINICC_OPTS) --mode=typecheck" python3 -m pytest $(PYTEST_BASE_OPTS) $(PYTEST_OPTS) ./test_codegen.py -k 'naive'
 
 test-interpret: test-pyright test_interpreter.py main-deps
 	python3 -m pytest $(PYTEST_BASE_OPTS) $(PYTEST_OPTS) test_interpreter.py
@@ -76,7 +74,7 @@ test-codegen: test-pyright antlr
 
 tar: clean
 	dir=$$(basename "$$PWD") && cd .. && \
-	tar cvfz $(MYNAME).tgz --exclude="*.riscv" --exclude=".git" --exclude=".pytest_cache"  \
+	tar cvfz $(MYNAME).tgz --exclude=".git" --exclude=".pytest_cache"  \
 	--exclude="htmlcov" "$$dir"
 	@echo "Created ../$(MYNAME).tgz"
 
@@ -96,6 +94,7 @@ endef
 export CLEAN
 clean-tests:
 	@python3 -c "$$CLEAN"
+	find . -iname "*.riscv" -print0 | xargs -0 rm -rf \;
 
 clean: clean-tests
 	find . \( -iname "*~" -or -iname ".cache*" -or -iname "*.diff" -or -iname "log*.txt" -or -iname "__pycache__" -or -iname "*.tokens" -or -iname "*.interp" \) -print0 | xargs -0 rm -rf \;

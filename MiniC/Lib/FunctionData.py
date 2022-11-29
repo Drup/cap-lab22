@@ -121,6 +121,8 @@ def _print_code(listIns: List, fdata: FunctionData, output,
     """
     # compute size for the local stack - do not forget to align by 16
     fo = fdata.get_offset()  # allocate enough memory for stack
+    # Room for S_i (except S_0 which is fp) and T_i backup
+    fo += len(S[1:]) + len(T)
     cardoffset = 8 * (fo + (0 if fo % 2 == 0 else 1)) + 16
     output.write(
         "##Automatically generated RISCV code, MIF08 & CAP\n")

@@ -30,7 +30,10 @@ if "MINICC_OPTS" in os.environ and os.environ["MINICC_OPTS"]:
 else:
     MINICC_OPTS = ["--mode=codegen-cfg"]
 
-DISABLE_TYPECHECK = "--disable-typecheck" in MINICC_OPTS
+DISABLE_TYPECHECK = "--disable-typecheck" in MINICC_OPTS \
+    or "--mode=parse" in MINICC_OPTS or "parse" in MINICC_OPTS
+DISABLE_CODEGEN = "--mode=parse" in MINICC_OPTS or "--mode=typecheck" in MINICC_OPTS \
+    or "parse" in MINICC_OPTS or "typecheck" in MINICC_OPTS
 
 HERE = os.path.dirname(os.path.realpath(__file__))
 if HERE == os.path.realpath('.'):
@@ -38,6 +41,10 @@ if HERE == os.path.realpath('.'):
 TEST_DIR = HERE
 IMPLEM_DIR = HERE
 MINIC_COMPILE = os.path.join(IMPLEM_DIR, 'MiniCC.py')
+
+LIBPRINT = '../TP01/riscv/libprint.s'
+if 'LIBPRINT' in os.environ:
+    LIBPRINT = os.environ['LIBPRINT']
 
 ALL_FILES = glob.glob(os.path.join(TEST_DIR, 'TP04/tests/**/[a-zA-Z]*.c'), recursive=True)
 
@@ -76,6 +83,13 @@ if 'TEST_FILES' in os.environ:
 class TestCodeGen(TestExpectPragmas):
     # Not in test_expect_pragma to get assertion rewritting
     def assert_equal(self, actual, expected):
+        if DISABLE_CODEGEN and expected.exitcode in (0, 5):
+            # Compiler does not fail => no output expected
+            assert actual.output == "", \
+                "Compiler unexpectedly generated some output with codegen disabled"
+            assert actual.exitcode == 0, \
+                "Compiler unexpectedly failed with codegen disabled"
+            return
         if DISABLE_TYPECHECK and expected.exitcode != 0:
             # Test should fail at typecheck, and we don't do
             # typechecking => nothing to check.
@@ -117,8 +131,9 @@ class TestCodeGen(TestExpectPragmas):
         self.remove(output_name)
         alloc_opt = '--reg-alloc=' + reg_alloc
         out_opt = '--output=' + output_name
-        cmd = [sys.executable, MINIC_COMPILE,
-               alloc_opt, out_opt]
+        cmd = [sys.executable, MINIC_COMPILE]
+        if not DISABLE_CODEGEN:
+            cmd += [out_opt, alloc_opt]
         cmd += MINICC_OPTS
         cmd += [file]
         result = self.run_command(cmd)
@@ -139,14 +154,15 @@ class TestCodeGen(TestExpectPragmas):
             # compilation failure (bad type, ...). Let the caller
             # do the assertion and decide:
             return result
-        assert(os.path.isfile(output_name))
+        if not DISABLE_CODEGEN:
+            assert(os.path.isfile(output_name))
         print("Compiling ... OK")
         return result
 
     def link_and_run(self, output_name, exec_name, info):
         self.remove(exec_name)
         cmd = [
-            ASM, output_name, '../TP01/riscv/libprint.s',
+            ASM, output_name, LIBPRINT,
             '-o', exec_name
         ] + info.linkargs
         print(info)
@@ -191,7 +207,9 @@ class TestCodeGen(TestExpectPragmas):
                                        output=None)
         else:
             result = self.compile_with_ours(file, output_name, reg_alloc)
-        if reg_alloc == 'none' or info.exitcode != 0 or result.exitcode != 0:
+        if (DISABLE_CODEGEN or
+                reg_alloc == 'none' or
+                info.exitcode != 0 or result.exitcode != 0):
             # Either the result is meaningless, or we already failed
             # and don't need to go any further:
             return result

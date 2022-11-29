@@ -1,0 +1,15 @@
+/MiniCLexer.py
+/MiniCParser.py
+/MiniCVisitor.py
+/MiniCListener.py
+*.dot
+*.dot.pdf
+*.riscv
+*-naive.s
+*-gcc.s
+*-all_in_mem.s
+*-smart.s
+*.cfut
+*.o
+/MiniC.interp
+/MiniCLexer.interp

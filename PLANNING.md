@@ -98,7 +98,7 @@ _Academic first semester 2022-2023_
 
 - :hammer: Lab 5b (1/2): Wednesday 26/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
 
-    * Smart Register Allocation [TP05b](MiniC/TP05/tp5b.pdf)
+    * Smart Register Allocation [TP05b](MiniC/TP05/tp5b.pdf).
     * Code in [MiniC/TP05/](MiniC/TP05/).
 
 - :book: 9th Course session: Friday 28/10/2022, 10:15. Amphi B (Gabriel Radanne)
@@ -123,3 +123,12 @@ _Academic first semester 2022-2023_
 
 - :book: 11th Course session:  Friday 24/11/2022, 10:15. Amphi B (Ludovic Henrio)
   * Parallelism [slides](course/cap_cours11_parallelism.pdf)
+
+# Week 12:
+
+- :hammer: Choice Lab (1/2): Wednesday 30/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+
+    * Optimissations under SSA form [TPoptim](MiniC/TPoptim/tpoptim.pdf), code in [MiniC/TPoptim/](MiniC/TPoptim/).
+    * Parsing and typechecking functions [TP06a](MiniC/TP06/tp6a.pdf), code in [MiniC/](MiniC/).
+    * Going Parallel with futures [TPfutures](TPfutures/tpfutures.pdf), code in [TPfutures/MiniC-futures/](TPfutures/MiniC-futures/).
+    * Code generation for functions [TP06b](MiniC/TP06/tp6b.pdf), code in [MiniC/](MiniC/).
