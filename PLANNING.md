@@ -121,23 +121,31 @@ _Academic first semester 2022-2023_
 
 - :notebook: TD: Wednesday 23/11/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
 
-- :book: 11th Course session:  Friday 24/11/2022, 10:15. Amphi B (Ludovic Henrio)
+- :book: 11th Course session: Friday 24/11/2022, 10:15. Amphi B (Ludovic Henrio)
   * Parallelism [slides](course/cap_cours11_parallelism.pdf)
 
 # Week 12:
 
-- :hammer: Choice Lab (1/2): Wednesday 30/10/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+- :hammer: Choice Lab (1/2): Wednesday 30/11/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
 
     * Optimisations under SSA form [TPoptim](MiniC/TPoptim/tpoptim.pdf), code in [MiniC/TPoptim/](MiniC/TPoptim/).
     * Parsing and typechecking functions [TP06a](MiniC/TP06/tp6a.pdf), code in [MiniC/](MiniC/).
     * Going Parallel with futures [TPfutures](TPfutures/tpfutures.pdf), code in [TPfutures/MiniC-futures/](TPfutures/MiniC-futures/).
     * Code generation for functions [TP06b](MiniC/TP06/tp6b.pdf), code in [MiniC/](MiniC/).
 
-- :book: 12th Course session:  Friday 2/12/2022, 10:15. Amphi B (Gabriel Radanne)
+- :book: 12th Course session: Friday 02/12/2022, 10:15. Amphi B (Gabriel Radanne)
   * Compilation: Beyond imperative languages [slides](course/cap_cours_bonuscomp.pdf)
-  
-  
+
 # Week 13:
-  
-- :book: 13th Course session:  Friday 9/12/2022, 10:15. Amphi B (L Henrio)
+
+- :book: 13th Course session: Friday 09/12/2022, 10:15. Amphi B (L Henrio)
   * Advanced parallelism and Dataflow futures [slides](course/cap_cours13_parallelismAdvanced.pdf)
+
+# Week 14:
+
+- :hammer: Choice Lab (2/2): Wednesday 14/12/2021, 10h15-12h15. Rooms A1 (Nicolas Chappe) & B2 (Rémi Di Guardia)
+
+    * Optimisations under SSA form [TPoptim](MiniC/TPoptim/tpoptim.pdf), code in [MiniC/TPoptim/](MiniC/TPoptim/).
+    * Parsing and typechecking functions [TP06a](MiniC/TP06/tp6a.pdf), code in [MiniC/](MiniC/).
+    * Going Parallel with futures [TPfutures](TPfutures/tpfutures.pdf), code in [TPfutures/MiniC-futures/](TPfutures/MiniC-futures/).
+    * Code generation for functions [TP06b](MiniC/TP06/tp6b.pdf), code in [MiniC/](MiniC/).
